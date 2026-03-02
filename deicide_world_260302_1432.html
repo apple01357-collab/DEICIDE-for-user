@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DEICIDE</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080810; --surface: #0e0e1a; --border: #1e1e32;
+    --accent: #7c6af7; --dim: #3a3a5c; --text: #c8c8e0; --muted: #5a5a80;
+    --phase0: #4a7fbf; --phase1: #bf9a4a; --phase2: #bf4a4a; --phase3: #8a4abf;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'Noto Serif KR', serif; font-size: 13px; line-height: 1.7; min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 32px 20px 80px; }
+  .header { margin-bottom: 32px; padding-bottom: 18px; border-bottom: 1px solid var(--border); display: flex; align-items: flex-end; justify-content: space-between; }
+  .title { font-family: 'Space Mono', monospace; font-size: 22px; font-weight: 700; letter-spacing: 6px; color: #fff; text-transform: uppercase; margin-bottom: 4px; }
+  .title span { color: var(--accent); }
+  .subtitle { font-size: 10px; color: var(--muted); letter-spacing: 2px; font-family: 'Space Mono', monospace; }
+  .server-badge { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--phase2); border: 1px solid var(--phase2); padding: 4px 10px; }
+  .nav { display: flex; gap: 0; margin-bottom: 28px; border-bottom: 1px solid var(--border); overflow-x: auto; }
+  .nav-btn { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 1px; padding: 10px 16px; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--muted); cursor: pointer; transition: all 0.2s; text-transform: uppercase; white-space: nowrap; margin-bottom: -1px; }
+  .nav-btn:hover { color: var(--accent); }
+  .nav-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .section { display: none; }
+  .section.active { display: block; animation: fadeIn 0.2s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  .sec-title { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 12px; margin-top: 24px; }
+  .sec-title:first-child { margin-top: 0; }
+  .card { background: var(--surface); border: 1px solid var(--border); padding: 16px 18px; margin-bottom: 12px; }
+  .card-title { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 2px; margin-bottom: 8px; text-transform: uppercase; }
+  .card p { font-size: 12.5px; line-height: 1.8; }
+  .card ul { padding-left: 0; list-style: none; }
+  .card ul li { font-size: 12.5px; padding: 3px 0 3px 14px; position: relative; }
+  .card ul li::before { content: '—'; position: absolute; left: 0; color: var(--dim); }
+  em { color: #e0d0ff; font-style: normal; font-weight: 600; }
+  .keyword-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .kw { font-family: 'Space Mono', monospace; font-size: 10px; padding: 4px 10px; border: 1px solid var(--accent); color: var(--accent); letter-spacing: 1px; }
+  .subtab-nav { display: flex; gap: 4px; margin-bottom: 20px; flex-wrap: wrap; }
+  .subtab-btn { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 1px; padding: 5px 11px; background: transparent; border: 1px solid var(--border); color: var(--muted); cursor: pointer; transition: all 0.15s; text-transform: uppercase; }
+  .subtab-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .subtab-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .subtab { display: none; }
+  .subtab.active { display: block; animation: fadeIn 0.2s ease; }
+  .dim-table { width: 100%; border-collapse: collapse; }
+  .dim-table th { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 1px; color: var(--muted); text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); text-transform: uppercase; }
+  .dim-table td { padding: 9px 10px; font-size: 12.5px; border-bottom: 1px solid #12121e; vertical-align: top; }
+  .dim-table tr:last-child td { border-bottom: none; }
+  .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+  .dot.stable { background: #22c55e; } .dot.unstable { background: #f59e0b; } .dot.open { background: #ef4444; } .dot.building { background: #3b82f6; } .dot.unknown { background: #6b7280; }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 8px; }
+  .legend span { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); }
+  .phase-card { border-left: 3px solid var(--dim); background: var(--surface); border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 16px 18px; margin-bottom: 12px; }
+  .phase-card.p0 { border-left-color: var(--phase0); } .phase-card.p1 { border-left-color: var(--phase1); } .phase-card.p2 { border-left-color: var(--phase2); } .phase-card.p3 { border-left-color: var(--phase3); }
+  .phase-num { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--muted); margin-bottom: 4px; }
+  .phase-name { font-size: 15px; font-weight: 600; color: #e8e8ff; margin-bottom: 10px; }
+  .phase-tag { display: inline-block; font-family: 'Space Mono', monospace; font-size: 9px; padding: 2px 7px; border: 1px solid var(--border); color: var(--muted); margin-bottom: 10px; margin-right: 4px; }
+  .phase-tag.current { border-color: var(--phase2); color: var(--phase2); }
+  .phase-ul { list-style: none; padding: 0; }
+  .phase-ul li { font-size: 12.5px; padding: 2px 0 2px 14px; position: relative; }
+  .phase-ul li::before { content: '—'; position: absolute; left: 0; color: var(--dim); }
+  .phase-quote { font-size: 12px; color: var(--muted); font-style: italic; border-left: 2px solid var(--dim); padding-left: 10px; margin-top: 10px; }
+  .notice-item { border: 1px solid var(--border); background: var(--surface); padding: 14px 18px; margin-bottom: 8px; }
+  .notice-header { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+  .notice-tag { font-family: 'Space Mono', monospace; font-size: 9px; padding: 2px 8px; letter-spacing: 1px; text-transform: uppercase; }
+  .notice-tag.patch { border: 1px solid #4a7fbf; color: #4a7fbf; }
+  .notice-tag.notice { border: 1px solid #bf9a4a; color: #bf9a4a; }
+  .notice-tag.event { border: 1px solid #7c6af7; color: #7c6af7; }
+  .notice-tag.bug { border: 1px solid #bf4a4a; color: #bf4a4a; }
+  .notice-date { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); }
+  .notice-title { font-size: 13px; font-weight: 600; color: #e8e8ff; margin-bottom: 4px; }
+  .notice-body { font-size: 12px; color: var(--text); line-height: 1.7; }
+  .notice-body ul { padding-left: 0; list-style: none; margin-top: 6px; }
+  .notice-body ul li { padding: 2px 0 2px 12px; position: relative; }
+  .notice-body ul li::before { content: '·'; position: absolute; left: 0; color: var(--dim); }
+  .empty-state { text-align: center; padding: 60px 0; color: var(--muted); }
+  .empty-state .icon { font-size: 28px; opacity: 0.3; margin-bottom: 10px; }
+  .empty-state p { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 2px; }
+  .guide-item { border: 1px solid var(--border); background: var(--surface); margin-bottom: 8px; overflow: hidden; }
+  .guide-header { display: flex; align-items: center; padding: 12px 18px; cursor: pointer; gap: 10px; }
+  .guide-header:hover { background: rgba(124,106,247,0.05); }
+  .guide-num { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--accent); }
+  .guide-title-text { font-size: 13px; color: #e8e8ff; flex: 1; }
+  .guide-arrow { font-family: 'Space Mono', monospace; font-size: 14px; color: var(--muted); transition: transform 0.2s; }
+  .guide-body { display: none; padding: 12px 18px 14px; font-size: 12.5px; line-height: 1.8; border-top: 1px solid var(--border); }
+  .guide-body ul { padding-left: 0; list-style: none; margin-top: 8px; }
+  .guide-body ul li { padding: 2px 0 2px 14px; position: relative; }
+  .guide-body ul li::before { content: '—'; position: absolute; left: 0; color: var(--dim); }
+  .guide-item.open .guide-arrow { transform: rotate(90deg); }
+  .guide-item.open .guide-body { display: block; }
+  .codex-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+  .codex-item { background: var(--surface); border: 1px solid var(--border); padding: 14px 16px; }
+  .codex-type { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .codex-name { font-size: 13px; color: #e8e8ff; font-weight: 600; margin-bottom: 6px; }
+  .codex-desc { font-size: 11.5px; color: var(--text); line-height: 1.6; }
+  .codex-tree {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .tree-branch {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .tree-root {
+    background: rgba(123,97,255,0.08);
+    border-bottom: 1px solid var(--border);
+    padding: 8px 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .tree-children {
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .tree-leaf-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .tree-mid {
+    font-size: 11px;
+    color: var(--muted);
+    min-width: 120px;
+    padding-top: 2px;
+    flex-shrink: 0;
+  }
+  .tree-mid::before { content: '└ '; }
+  .tree-leaves {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tree-item {
+    font-size: 11px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 8px;
+    color: var(--text);
+  }
+  .codex-tag { display: inline-block; font-family: 'Space Mono', monospace; font-size: 9px; padding: 1px 6px; border: 1px solid var(--border); color: var(--muted); margin-top: 6px; margin-right: 3px; }
+  @media (max-width: 480px) { .codex-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div>
+      <div class="title">DEI<span>CIDE</span></div>
+      <div class="subtitle">Minecraft Survival Server · Paper 1.21.10</div>
+    </div>
+    <div class="server-badge">PHASE 2 — NIGHTMARE</div>
+  </div>
+
+  <div class="nav">
+    <button class="nav-btn active" onclick="show('info', this)">서버 INFO</button>
+    <button class="nav-btn" onclick="show('notice', this)">공지사항</button>
+    <button class="nav-btn" onclick="show('updates', this)">업데이트 내역</button>
+    <button class="nav-btn" onclick="show('guide', this)">가이드</button>
+    <button class="nav-btn" onclick="show('codex', this)">도감</button>
+  </div>
+
+  <!-- 서버 INFO -->
+  <div class="section active" id="info">
+    <div class="subtab-nav">
+      <button class="subtab-btn active" onclick="showSub('sub-overview', this)">개요</button>
+      <button class="subtab-btn" onclick="showSub('sub-concepts', this)">핵심 개념</button>
+      <button class="subtab-btn" onclick="showSub('sub-dimensions', this)">차원</button>
+      <button class="subtab-btn" onclick="showSub('sub-phases', this)">Phase</button>
+      <button class="subtab-btn" onclick="showSub('sub-spaces', this)">특수공간</button>
+    </div>
+    <div class="subtab active" id="sub-overview">
+      <div class="card">
+        <div class="card-title">장르</div>
+        <p>시뮬레이션 우주 / 무의식 차원 / 디스토피아</p>
+        <div class="keyword-grid">
+          <span class="kw">DEP</span><span class="kw">Sweet Dream</span><span class="kw">The rest</span><span class="kw">The sill</span><span class="kw">Librarian</span><span class="kw">Nightmare</span>
+        </div>
+      </div>
+      <div class="sec-title">우주관</div>
+      <div class="card">
+        <p>설계자들이 무의식·의식 탐구 및 시간 차원 연구를 위해 시뮬레이션 우주를 개발하던 중, 인터넷 내에서 방대한 정보를 가진 스크립트를 우연히 발견. <em>정보 극대화의 특이점</em>(AI 시대 혹은 그 이후 포화 시점)이 배경.</p>
+        <ul style="margin-top:12px;">
+          <li>설계자들은 연구에 필요한 요소만 추출해 <em>게임(마인크래프트)</em> 형태로 구현</li>
+          <li>오버월드 구현 후 차원 연구 진행 — 네더·엔드 불안정하게 확장</li>
+          <li><em>The rest</em>(무의식 차원)는 설계자들에게 발견되지 못한 채 잠재되어 있었음</li>
+          <li>차원 이동 방법 구비 후 설계자들은 이 우주를 버리고 떠남 — 기록(책 아이템, ARG)만 남음</li>
+          <li>설계자들의 관측 영역 근처에서 <em>초의식 NPC</em>들이 점점 자각하여 생겨남</li>
+        </ul>
+      </div>
+    </div>
+    <div class="subtab" id="sub-concepts">
+      <div class="sec-title">DEP — Dimension Elemental Particle</div>
+      <div class="card" style="margin-bottom:16px;">
+        <ul>
+          <li>불안정한 차원(네더·엔드)에서 국부적으로 발생하는 <em>양자요동</em>에서 포집</li>
+          <li>포집 장치 없이는 거의 즉시 소멸 — 포집관·포집 장치 필수</li>
+          <li>초기 초의식 NPC들이 이 방법을 발견하고 연구·조합을 시작</li>
+          <li>게임 내 <em>화폐 겸 소모 자원</em> — 사서에게 기부 → DEP 증서 → 전직·상점 사용</li>
+        </ul>
+      </div>
+      <div class="sec-title">Sweet Dream — 정신이완계 약물</div>
+      <div class="card" style="margin-bottom:16px;">
+        <ul>
+          <li>수면·꿈·무의식 통제, Super ego 핸들링이 목표</li>
+          <li>의식 확장 + 긴장 완화 / 꿈을 잃은 이들을 위한 위로</li>
+          <li>연구 진전 부족 → 사설 기관 자본 유입 → 상용화</li>
+          <li>안전 장치: <em>도서관 형태 테라피 센터</em> 운영 (직접 판매 X)</li>
+          <li>Sweet Dream + 책 = <em>꿈 책</em> (레이드 책, 사이드 스토리 책)</li>
+        </ul>
+      </div>
+      <div class="sec-title">Librarian — 사서</div>
+      <div class="card" style="margin-bottom:16px;">
+        <ul>
+          <li>Sweet Dream 도서관을 운영·관리하는 직책</li>
+          <li>재앙 속에서 살아남은 이들이 <em>고대 사서</em>로 불림</li>
+          <li>전직 조건: <em>Grade 4 달성</em> 필요</li>
+          <li>플레이어에게 The sill 구축을 요청하는 핵심 NPC</li>
+        </ul>
+      </div>
+      <div class="sec-title">국가 (집체)</div>
+      <div class="card">
+        <ul>
+          <li>초의식 NPC들이 늘어나며 자연스럽게 형성된 집체</li>
+          <li>기존 에메랄드를 버리고 <em>Token</em> 발행하여 운영</li>
+          <li>플레이 시점에서는 시스템(토큰·시세·보급)만 남아 있음</li>
+        </ul>
+      </div>
+    </div>
+    <div class="subtab" id="sub-dimensions">
+      <div class="card">
+        <table class="dim-table">
+          <thead><tr><th>차원</th><th>상태</th><th>설명</th></tr></thead>
+          <tbody>
+            <tr><td><em>오버월드</em></td><td><span class="dot stable"></span>안정</td><td>플레이 주 무대. 설계자들이 정성들여 구현. Nightmare 몹 배회 중.</td></tr>
+            <tr><td>네더</td><td><span class="dot unstable"></span>불안정</td><td>차원 연구 부산물로 열림. 양자요동 존재.</td></tr>
+            <tr><td>엔드</td><td><span class="dot unstable"></span>불안정</td><td>차원 연구 부산물로 열림. 양자요동 존재.</td></tr>
+            <tr><td><em>The rest</em></td><td><span class="dot open"></span>개방됨</td><td>무의식 차원. Sweet Dream 남용으로 통로 개방.</td></tr>
+            <tr><td><em>The sill</em></td><td><span class="dot building"></span>건설 중</td><td>Phase 2에서 플레이어가 구축할 완충 차원.</td></tr>
+            <tr><td><em>The deep</em></td><td><span class="dot unknown"></span>미지</td><td>Phase 3 최종 차원. 존재 자체가 아직 미공개.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="legend">
+        <span><span class="dot stable"></span>안정</span>
+        <span><span class="dot unstable"></span>불안정</span>
+        <span><span class="dot open"></span>개방됨</span>
+        <span><span class="dot building"></span>건설 중</span>
+        <span><span class="dot unknown"></span>미지</span>
+      </div>
+    </div>
+    <div class="subtab" id="sub-phases">
+      <div class="phase-card p0">
+        <div class="phase-num">PHASE 0</div>
+        <div class="phase-name">낯선 차원</div>
+        <span class="phase-tag">메인 스토리</span><span class="phase-tag">세계관 기반</span>
+        <ul class="phase-ul">
+          <li>설계자들의 시뮬레이션 우주 개발 및 방치</li>
+          <li>초의식 NPC 생성 / DEP 포집 및 연구 시작</li>
+          <li>Sweet Dream 약물 개발의 씨앗</li>
+        </ul>
+        <div class="phase-quote">「우리는 대부분 꿈을 꾼다, 하지만 그 과정은 잘 모른다」</div>
+      </div>
+      <div class="phase-card p1">
+        <div class="phase-num">PHASE 1</div>
+        <div class="phase-name">Sweet Dream</div>
+        <span class="phase-tag">메인 스토리</span><span class="phase-tag">사이드 스토리</span>
+        <ul class="phase-ul">
+          <li>Sweet Dream 상용화 → 전역 도서관 건설</li>
+          <li><em>안전 장치 붕괴</em>: 약물 빼돌리기, 사설 사용 증가</li>
+          <li>혼수상태 환자 증가 → Nightmare 몹이 오버월드로 유입</li>
+          <li>초의식 NPC 소멸/납치/중독, 사서·연구진도 재앙을 피하지 못함</li>
+        </ul>
+      </div>
+      <div class="phase-card p2">
+        <div class="phase-num">PHASE 2</div>
+        <div class="phase-name">Nightmare</div>
+        <span class="phase-tag">메인 스토리</span><span class="phase-tag current">▶ 현재 서버 시점</span>
+        <ul class="phase-ul">
+          <li>세계 거의 종말 후 긴 시간이 흐른 뒤, 플레이어 입장</li>
+          <li>살아남은 고대 사서들이 플레이어에게 희망을 품고 접촉</li>
+          <li>목표: 흐려진 차원 경계를 다시 갈라놓기 → <em>The sill 차원 구축</em> 필요</li>
+          <li>접근 조건: <em>Grade 4 + Librarian 전직</em></li>
+        </ul>
+      </div>
+      <div class="phase-card p3">
+        <div class="phase-num">PHASE 3</div>
+        <div class="phase-name">DEICIDE</div>
+        <span class="phase-tag">엔드 퀘스트</span>
+        <ul class="phase-ul">
+          <li>최종 보스: <em>The Hat Man</em> / 차원: The deep</li>
+          <li style="color:var(--dim);">상세 스토리 미공개</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 특수공간 -->
+    <div class="subtab" id="sub-spaces">
+      <div class="sec-title"><span style="color:#f59e0b;">■</span> 토큰 플랫폼 (Token Platform)</div>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-title">개요</div>
+        <p>고대 사서가 플레이어들을 사서로 육성하기 위해 만든 공간. <em>Token</em>이 중심이 되는 거점. 설계자들이 이 게임을 탐구하며 차원을 확장했듯, 플레이어들도 그 자취를 따라 바닐라 컨텐츠를 마스터하길 바라는 공간.</p>
+        <ul style="margin-top:12px;">
+          <li>토큰 상점 — 야생 수급 어려운 물품 거래, 시세 변동 시스템</li>
+          <li>Grade 관리 — Grade Up 퀘스트, 승급, Grade별 상점 권한</li>
+          <li>스탯 관리 — 승급 보상 스탯 포인트로 바닐라 능력치 강화</li>
+          <li><em>레이드 입장</em> — 침대에서 레이드 입장권을 들고 잠들면 해당 레이드 공간으로 이동</li>
+          <li><em>던전 입장</em> — 액자에 던전 입장권을 넣으면 해당 던전으로 이동</li>
+        </ul>
+      </div>
+
+      <div class="sec-title"><span style="color:#4ade80;">■</span> 클래스 마을 (Class Village)</div>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-title">개요</div>
+        <p>초자아를 가진 주민들이 모여 꾸린 정착지. <em>DEP</em>를 활용한 합성·제작이 중심.</p>
+        <ul style="margin-top:12px;">
+          <li>NPC 상점 및 클래스 전직</li>
+          <li>커스텀 장비 제작·정제</li>
+          <li>DEP 기부 및 포집 장치 구매</li>
+        </ul>
+      </div>
+
+      <div class="sec-title"><span style="color:#c084fc;">■</span> The sill</div>
+      <div class="card" style="margin-bottom:16px;">
+        <p>오버월드와 The rest 사이의 완충 차원. 고대 사서와 입자물리학자가 막대한 DEP를 소모하여 구축한 방어선. 현재 공간만 존재하며 아직 진행사항이 없음. 플레이어들이 DEP를 모아 The rest 토벌 및 꿈 책 수집을 진행하는 공간.</p>
+        <ul style="margin-top:8px;">
+          <li>접근 조건: <em>Grade 4 + Librarian 전직</em></li>
+          <li>꿈 책 도서관 — The sill 아래, 레이드 북 및 드림북 수집</li>
+        </ul>
+      </div>
+
+      <div class="sec-title"><span style="color:#f43f5e;">■</span> 멀티 플랫폼 (Multi Platform)</div>
+      <div class="card">
+        <ul style="margin-top:0;">
+          <li>일일 퀘스트 / 월간 퀘스트</li>
+          <li>미니게임 / 보드게임</li>
+          <li>자유 거래소</li>
+          <li>시즌 이벤트</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 공지사항 -->
+  <div class="section" id="notice">
+    <div class="empty-state">
+      <div class="icon">📌</div>
+      <p>등록된 공지사항이 없습니다</p>
+    </div>
+  </div>
+
+  <!-- 업데이트 내역 -->
+  <div class="section" id="updates">
+    <div class="notice-item">
+      <div class="notice-header">
+        <span class="notice-tag patch">ALPHA</span>
+        <span class="notice-date">2026.03.01</span>
+      </div>
+      <div class="notice-title">알파 버전 개발 진행 중</div>
+      <div class="notice-body">
+        <ul>
+          <li>토큰 플랫폼, Grade 시스템 기반 구현</li>
+          <li>특수공간 구성 (토큰 플랫폼 / 클래스 마을 / The sill / 멀티 플랫폼)</li>
+          <li>NPC 인터페이스 기반 구현</li>
+          <li>레이드·던전 입장 시스템 개발 중</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 가이드 -->
+  <div class="section" id="guide">
+    <div class="guide-item">
+      <div class="guide-header" onclick="toggleGuide(this)">
+        <span class="guide-num">01</span>
+        <span class="guide-title-text">서버 첫 입장 — 튜토리얼</span>
+        <span class="guide-arrow">›</span>
+      </div>
+      <div class="guide-body">
+        <p>서버에 처음 입장하면 <em>Grade -1</em> 상태로 시작합니다. 고대 사서를 찾아가 튜토리얼 퀘스트를 완료하면 Grade 0으로 승급됩니다.</p>
+        <ul>
+          <li>텔레포트 시스템을 이용해 토큰 플랫폼으로 이동</li>
+          <li>고대 사서 NPC와 대화</li>
+          <li>서버 가이드 북 열람</li>
+          <li>야생으로 이동 후 밤 1회 생존</li>
+        </ul>
+      </div>
+    </div>
+    <div class="guide-item">
+      <div class="guide-header" onclick="toggleGuide(this)">
+        <span class="guide-num">02</span>
+        <span class="guide-title-text">특수공간 이동 및 복귀</span>
+        <span class="guide-arrow">›</span>
+      </div>
+      <div class="guide-body">
+        <p>불꽃놀이 로켓을 들고 특정 블록 위에서 우클릭하면 특수공간으로 이동합니다. 복귀는 reinforced deepslate 위 침대에서 웅크리기로 돌아올 수 있습니다.</p>
+      </div>
+    </div>
+    <div class="guide-item">
+      <div class="guide-header" onclick="toggleGuide(this)">
+        <span class="guide-num">03</span>
+        <span class="guide-title-text">토큰 시스템</span>
+        <span class="guide-arrow">›</span>
+      </div>
+      <div class="guide-body">
+        <p>Token은 이 서버의 주요 재화 중 하나입니다. 토큰 플랫폼의 상점에서 야생 생존에 도움이 되는 물품을 구매할 수 있으며, 시세가 주기적으로 변동됩니다.</p>
+      </div>
+    </div>
+    <div class="guide-item">
+      <div class="guide-header" onclick="toggleGuide(this)">
+        <span class="guide-num">04</span>
+        <span class="guide-title-text">Grade 시스템</span>
+        <span class="guide-arrow">›</span>
+      </div>
+      <div class="guide-body">
+        <p>Grade는 플레이어의 성장 단계입니다. Grade 관리자 NPC를 통해 퀘스트를 확인하고 승급할 수 있습니다. Grade가 높을수록 더 많은 상점 권한이 열립니다.</p>
+        <ul>
+          <li>Grade -1 → 0: 튜토리얼</li>
+          <li>Grade 0 → 1: Overworld 적응</li>
+          <li>Grade 1 → 2: 위험 지역 진입</li>
+          <li>Grade 2 → 3: 심층 콘텐츠</li>
+          <li>Grade 3 → 4: 엔드게임 — Librarian 전직 자격 획득</li>
+        </ul>
+      </div>
+    </div>
+    <div class="guide-item">
+      <div class="guide-header" onclick="toggleGuide(this)">
+        <span class="guide-num">05</span>
+        <span class="guide-title-text">DEP 포집</span>
+        <span class="guide-arrow">›</span>
+      </div>
+      <div class="guide-body">
+        <p>DEP는 불안정한 차원(네더·엔드)에서 발생하는 양자요동에서 얻을 수 있습니다. 포집 장치 없이는 거의 즉시 소멸하므로 반드시 포집 장치를 사용하세요. 수집한 DEP는 입자물리학자 NPC에게 기부하여 DEP 기부증서를 받아 재화로 사용하거나, 대장장이 NPC를 통해 특수한 재료로 가공할 수 있습니다.</p>
+      </div>
+    </div>
+
+    <div class="guide-item">
+      <div class="guide-header" onclick="toggleGuide(this)">
+        <span class="guide-num">06</span>
+        <span class="guide-title-text">NPC 안내</span>
+        <span class="guide-arrow">›</span>
+      </div>
+      <div class="guide-body">
+        <p>클래스 마을의 NPC들은 각각 전문 분야를 담당합니다. 클래스 마을의 기본 화폐는 <em>에메랄드</em>이며, DEP가 많이 소모되는 작업(꿈 책 제작, 재료 합성 등)에는 <em>DEP 증서</em>가 추가로 필요합니다.</p>
+        <ul>
+          <li><em>고대 사서</em> — 메인 스토리 퀘스트, Librarian 전직, 문패·토템 관리</li>
+          <li><em>스탯관리자</em> — 스탯 확인·업그레이드·반환</li>
+          <li><em>Grade관리자</em> — Grade Up 퀘스트, 상점 입장 관리</li>
+          <li><em>입자물리학자</em> — DEP 기부, 포집 장치 제조, 포집관 가챠</li>
+          <li><em>대장장이</em> — 원재료 정제, 커스텀 장비 제작·거래</li>
+          <li><em>특수작물농부</em> — 커스텀 작물 거래, 요리 레시피 구매</li>
+          <li><em>잡화상</em> — 특수 도구 판매</li>
+          <li><em>조향사</em> — Sweet Dream 구매, 꿈 책 제조, 꿈 도서관 이동</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="guide-item">
+      <div class="guide-header" onclick="toggleGuide(this)">
+        <span class="guide-num">07</span>
+        <span class="guide-title-text">Class (직업) 시스템</span>
+        <span class="guide-arrow">›</span>
+      </div>
+      <div class="guide-body">
+        <p>NPC의 전직 메뉴를 통해 직업을 선택할 수 있습니다. 직업은 최대 <em>2개</em>까지 동시에 보유 가능하며, 조합에 따라 시너지 효과가 생깁니다.</p>
+
+        <p style="margin-top:12px; margin-bottom:6px; font-family:'Space Mono',monospace; font-size:10px; color:var(--accent); letter-spacing:2px;">생산직</p>
+        <ul>
+          <li><em>농부</em> — 작물 수확 효율 증가</li>
+          <li><em>어부</em> — 낚시 드랍 및 희귀 아이템 확률 증가</li>
+          <li><em>광부</em> — 채굴 효율 및 광물 드랍 증가</li>
+          <li><em>대장장이</em> — 장비 제작 및 정제 효율 증가</li>
+          <li><em>축산업</em> — 몹 드랍 및 번식 효율 증가</li>
+          <li><em>디스틸러</em> — 양조·증류 제조 효율 증가. Sweet Dream 향수 관련 이점</li>
+          <li><em>쿠퍼</em> — 양조용 배럴 제작 가능</li>
+        </ul>
+
+        <p style="margin-top:12px; margin-bottom:6px; font-family:'Space Mono',monospace; font-size:10px; color:var(--accent); letter-spacing:2px;">전투직</p>
+        <ul>
+          <li><em>힐러</em> — 회복 및 버프 물약 효율 증가</li>
+          <li><em>도박사</em> — 트럼프 카드를 원거리 무기로 사용. 카드 숫자·문양마다 효과·데미지 상이</li>
+        </ul>
+
+        <p style="margin-top:12px; margin-bottom:6px; font-family:'Space Mono',monospace; font-size:10px; color:var(--accent); letter-spacing:2px;">연구직</p>
+        <ul>
+          <li><em>천문학자</em> — 재료 분해·재활용 가능. DEP 등 가공물질로 전환</li>
+          <li><em>전기공학자</em> — 레드스톤 관련 베네핏. DEP 포집기 제조 비용 절감</li>
+          <li><em>건축가</em> — 건축 편의 기능 제공</li>
+          <li><em>탐험가</em> — 나침반 보유 시 주변 구조물 좌표·거리 액션바 표시</li>
+          <li><em>음반제작가</em> — 커스텀 음반 제작 권한</li>
+        </ul>
+
+        <p style="margin-top:10px; color: var(--muted); font-size:11px;">※ 클래스 상세 내용 및 시너지는 추후 업데이트 예정</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 도감 -->
+  <div class="section" id="codex">
+    <div class="sec-title">차원</div>
+    <div class="codex-grid">
+      <div class="codex-item">
+        <div class="codex-type">Dimension</div>
+        <div class="codex-name">The rest</div>
+        <div class="codex-desc">무의식 차원. Sweet Dream 남용으로 통로가 개방되어 Nightmare 몹이 유입되기 시작한 근원.</div>
+        <span class="codex-tag">개방됨</span><span class="codex-tag">Phase 2</span>
+      </div>
+      <div class="codex-item">
+        <div class="codex-type">Dimension</div>
+        <div class="codex-name">The sill</div>
+        <div class="codex-desc">오버월드와 The rest 사이의 완충 차원. 플레이어가 DEP를 소모하여 구축해야 한다.</div>
+        <span class="codex-tag">건설 중</span><span class="codex-tag">Phase 2 목표</span>
+      </div>
+    </div>
+    <div class="sec-title">아이템</div>
+
+    <div class="codex-tree">
+
+      <div class="tree-branch">
+        <div class="tree-root">재료</div>
+        <div class="tree-children">
+
+          <div class="tree-leaf-group">
+            <div class="tree-mid">원재료</div>
+            <div class="tree-leaves">
+              <span class="tree-item">—</span>
+            </div>
+          </div>
+
+          <div class="tree-leaf-group">
+            <div class="tree-mid">젬스톤</div>
+            <div class="tree-leaves">
+              <span class="tree-item">—</span>
+            </div>
+          </div>
+
+          <div class="tree-leaf-group">
+            <div class="tree-mid">보석</div>
+            <div class="tree-leaves">
+              <span class="tree-item">—</span>
+            </div>
+          </div>
+
+          <div class="tree-leaf-group">
+            <div class="tree-mid">가공재료</div>
+            <div class="tree-leaves">
+              <span class="tree-item">고무</span>
+              <span class="tree-item">플라스틱</span>
+              <span class="tree-item">세라믹</span>
+              <span class="tree-item">금속 (순수 결정질)</span>
+              <span class="tree-item">합금</span>
+            </div>
+          </div>
+
+          <div class="tree-leaf-group">
+            <div class="tree-mid">유물</div>
+            <div class="tree-leaves">
+              <span class="tree-item">—</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="tree-branch">
+        <div class="tree-root">장비</div>
+        <div class="tree-children">
+
+          <div class="tree-leaf-group">
+            <div class="tree-mid">특수장비 — 무기</div>
+            <div class="tree-leaves">
+              <span class="tree-item">—</span>
+            </div>
+          </div>
+
+          <div class="tree-leaf-group">
+            <div class="tree-mid">특수장비 — 방어구</div>
+            <div class="tree-leaves">
+              <span class="tree-item">—</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="tree-branch">
+        <div class="tree-root">작물</div>
+        <div class="tree-children">
+
+          <div class="tree-leaf-group">
+            <div class="tree-mid">식재료</div>
+            <div class="tree-leaves">
+              <span class="tree-item">쌀</span>
+              <span class="tree-item">파</span>
+              <span class="tree-item">양파</span>
+              <span class="tree-item">양배추</span>
+              <span class="tree-item">체리</span>
+            </div>
+          </div>
+
+          <div class="tree-leaf-group">
+            <div class="tree-mid">양조 재료</div>
+            <div class="tree-leaves">
+              <span class="tree-item">보리</span>
+              <span class="tree-item">포도</span>
+              <span class="tree-item">주니퍼베리</span>
+              <span class="tree-item">용설란</span>
+              <span class="tree-item">피트 블럭</span>
+            </div>
+          </div>
+
+          <div class="tree-leaf-group">
+            <div class="tree-mid">허브</div>
+            <div class="tree-leaves">
+              <span class="tree-item">로즈마리</span>
+              <span class="tree-item">—</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="tree-branch">
+        <div class="tree-root">음식·음료</div>
+        <div class="tree-children">
+
+          <div class="tree-leaf-group">
+            <div class="tree-mid">한식</div>
+            <div class="tree-leaves"><span class="tree-item">—</span></div>
+          </div>
+          <div class="tree-leaf-group">
+            <div class="tree-mid">양식</div>
+            <div class="tree-leaves"><span class="tree-item">—</span></div>
+          </div>
+          <div class="tree-leaf-group">
+            <div class="tree-mid">지중해식</div>
+            <div class="tree-leaves"><span class="tree-item">—</span></div>
+          </div>
+          <div class="tree-leaf-group">
+            <div class="tree-mid">패스트푸드</div>
+            <div class="tree-leaves"><span class="tree-item">—</span></div>
+          </div>
+          <div class="tree-leaf-group">
+            <div class="tree-mid">카페 음료</div>
+            <div class="tree-leaves"><span class="tree-item">—</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="tree-branch">
+        <div class="tree-root">양조·증류주</div>
+        <div class="tree-children">
+
+          <div class="tree-leaf-group">
+            <div class="tree-mid">위스키</div>
+            <div class="tree-leaves"><span class="tree-item">—</span></div>
+          </div>
+          <div class="tree-leaf-group">
+            <div class="tree-mid">와인</div>
+            <div class="tree-leaves"><span class="tree-item">—</span></div>
+          </div>
+          <div class="tree-leaf-group">
+            <div class="tree-mid">진</div>
+            <div class="tree-leaves"><span class="tree-item">—</span></div>
+          </div>
+          <div class="tree-leaf-group">
+            <div class="tree-mid">데킬라</div>
+            <div class="tree-leaves"><span class="tree-item">—</span></div>
+          </div>
+          <div class="tree-leaf-group">
+            <div class="tree-mid">럼</div>
+            <div class="tree-leaves"><span class="tree-item">—</span></div>
+          </div>
+          <div class="tree-leaf-group">
+            <div class="tree-mid">보드카</div>
+            <div class="tree-leaves"><span class="tree-item">—</span></div>
+          </div>
+          <div class="tree-leaf-group">
+            <div class="tree-mid">리큐르</div>
+            <div class="tree-leaves"><span class="tree-item">—</span></div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    <div class="sec-title">NPC</div>
+    <div class="codex-grid">
+      <div class="codex-item">
+        <div class="codex-type">Ancient Librarian</div>
+        <div class="codex-name">고대 사서</div>
+        <div class="codex-desc">재앙에서 살아남은 사서. 플레이어에게 메인 스토리 퀘스트를 부여하고 The sill 구축을 요청한다.</div>
+        <span class="codex-tag">토큰 플랫폼</span>
+      </div>
+      <div class="codex-item">
+        <div class="codex-type">NPC</div>
+        <div class="codex-name">입자물리학자</div>
+        <div class="codex-desc">DEP 연구 전문가. DEP 기부, 포집 장치 제조, 포집관 가챠를 담당한다.</div>
+        <span class="codex-tag">클래스 마을</span>
+      </div>
+      <div class="codex-item">
+        <div class="codex-type">NPC</div>
+        <div class="codex-name">조향사</div>
+        <div class="codex-desc">Sweet Dream 전문가. 스윗드림 구매, 꿈 책 제조, 꿈 도서관 이동을 안내한다.</div>
+        <span class="codex-tag">클래스 마을</span>
+      </div>
+      <div class="codex-item">
+        <div class="codex-type">NPC</div>
+        <div class="codex-name">대장장이</div>
+        <div class="codex-desc">원재료 정제와 커스텀 장비 제작을 담당. 보석이 포함된 특수 장비를 다룬다.</div>
+        <span class="codex-tag">클래스 마을</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function show(id, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+  function showSub(id, btn) {
+    document.querySelectorAll('.subtab').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.subtab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+  function toggleGuide(header) {
+    header.parentElement.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
