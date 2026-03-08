@@ -35,6 +35,9 @@
   .card ul li { font-size: 12.5px; padding: 3px 0 3px 14px; position: relative; }
   .card ul li::before { content: '—'; position: absolute; left: 0; color: var(--dim); }
   em { color: #e0d0ff; font-style: normal; font-weight: 600; }
+  .tag-new { color: #7ec4a0; font-style: normal; font-weight: 600; }
+  .tag-patch { color: #7aaac8; font-style: normal; font-weight: 600; }
+  .tag-fix { color: #c47a8a; font-style: normal; font-weight: 600; }
   .keyword-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
   .kw { font-family: 'Space Mono', monospace; font-size: 10px; padding: 4px 10px; border: 1px solid var(--accent); color: var(--accent); letter-spacing: 1px; }
   .subtab-nav { display: flex; gap: 4px; margin-bottom: 20px; flex-wrap: wrap; }
@@ -156,7 +159,7 @@
   <div class="header">
     <div>
       <div class="title">DEI<span>CIDE</span></div>
-      <div class="subtitle">Minecraft Survival Server · Paper 1.21.10</div>
+      <div class="subtitle">Minecraft Survival Server · Paper 1.21.11</div>
     </div>
     <div class="server-badge">PHASE 2 — NIGHTMARE</div>
   </div>
@@ -360,6 +363,24 @@
 
   <!-- 업데이트 내역 -->
   <div class="section" id="updates">
+    <div class="notice-item">
+      <div class="notice-header">
+        <span class="notice-tag patch">ALPHA</span>
+        <span class="notice-date">2026.03.08</span>
+      </div>
+      <div class="notice-title">알파 버전 개발 진행 중</div>
+      <div class="notice-body">
+        <ul>
+          <li><span class="tag-new">[신규]</span> 도전과제(튜토리얼) 시스템 적용 — 19개 도전과제 및 보상 구현, 서버 첫 접속 인트로 이벤트 추가</li>
+          <li><span class="tag-new">[신규]</span> 서버 첫 접속 지급 아이템 — 플레이어 머리 ×5 · 갑옷거치대 ×3 · 토템 범위 강화권 ×15</li>
+          <li><span class="tag-new">[신규]</span> 인벤토리 자동 정렬 기능 — 빈 슬롯 Shift+좌클릭으로 정렬, 인벤토리 바깥 좌클릭으로 상자에 동일 아이템 이동</li>
+          <li><span class="tag-new">[신규]</span> 유저페이지 도감 — 차원·몹·아이템 도감 페이지 추가</li>
+          <li><span class="tag-patch">[패치]</span> 버킷 버전 변경 — Paper 1.21.10 → 1.21.11</li>
+          <li><span class="tag-fix">[버그픽스]</span> 악몽몹 처치 인식 오류 수정</li>
+          <li><span class="tag-fix">[버그픽스]</span> 다른 차원 진입 시 런타임 오류 수정</li>
+        </ul>
+      </div>
+    </div>
     <div class="notice-item">
       <div class="notice-header">
         <span class="notice-tag patch">ALPHA</span>
