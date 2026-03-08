@@ -71,6 +71,11 @@
   .notice-tag.notice { border: 1px solid #bf9a4a; color: #bf9a4a; }
   .notice-tag.event { border: 1px solid #7c6af7; color: #7c6af7; }
   .notice-tag.bug { border: 1px solid #bf4a4a; color: #bf4a4a; }
+  .notice-tag.new { border: 1px solid #7ec4a0; color: #7ec4a0; }
+  .notice-tag.fix { border: 1px solid #c47a8a; color: #c47a8a; }
+  .tag-new { color: #7ec4a0; font-size: 11px; font-weight: 600; }
+  .tag-fix { color: #c47a8a; font-size: 11px; font-weight: 600; }
+  .tag-patch { color: #7aaac8; font-size: 11px; font-weight: 600; }
   .notice-date { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); }
   .notice-title { font-size: 13px; font-weight: 600; color: #e8e8ff; margin-bottom: 4px; }
   .notice-body { font-size: 12px; color: var(--text); line-height: 1.7; }
@@ -159,7 +164,7 @@
   <div class="header">
     <div>
       <div class="title">DEI<span>CIDE</span></div>
-      <div class="subtitle">Minecraft Survival Server · <span class="server-addr" title="멀티플레이 → 직접연결 / 서버추가 → 서버 주소 입력">deicide.r-e.kr</span> · Paper 1.21.11</div>
+      <div class="subtitle">Minecraft Survival Server · <span class="server-addr" title="멀티플레이 → 직접연결 / 서버추가 → 서버 주소 입력">deicide.r-e.kr</span> · Paper 1.21.10</div>
     </div>
     <div class="server-badge">PHASE 2 — NIGHTMARE</div>
   </div>
@@ -366,15 +371,32 @@
     <div class="notice-item">
       <div class="notice-header">
         <span class="notice-tag patch">ALPHA</span>
-        <span class="notice-date">2026.03.01</span>
+        <span class="notice-tag new">UPDATE</span>
+        <span class="notice-date">2026.03.08</span>
       </div>
-      <div class="notice-title">알파 버전 개발 진행 중</div>
+      <div class="notice-title">시스템 업데이트</div>
       <div class="notice-body">
         <ul>
-          <li>토큰 플랫폼, Grade 시스템 기반 구현</li>
-          <li>특수공간 구성 (토큰 플랫폼 / 클래스 마을 / The sill / 멀티 플랫폼)</li>
-          <li>NPC 인터페이스 기반 구현</li>
-          <li>레이드·던전 입장 시스템 개발 중</li>
+          <li><span class="tag-new">[신규]</span> 도전과제(튜토리얼) 시스템 — 19개 도전과제 및 보상 구현, 서버 첫 접속 인트로 이벤트 추가</li>
+          <li><span class="tag-new">[신규]</span> 서버 첫 접속 지급 아이템 — 플레이어 머리 ×5 · 갑옷거치대 ×3 · 토템 범위 강화권 ×15</li>
+          <li><span class="tag-new">[신규]</span> 인벤토리 자동 정렬 기능 (ChestSort)</li>
+          <li><span class="tag-fix">[버그픽스]</span> 악몽몹 처치 인식 오류 수정</li>
+          <li><span class="tag-fix">[버그픽스]</span> 다른 차원 진입 시 런타임 오류 수정</li>
+        </ul>
+      </div>
+    </div>
+    <div class="notice-item">
+      <div class="notice-header">
+        <span class="notice-tag patch">ALPHA</span>
+        <span class="notice-tag new">UPDATE</span>
+        <span class="notice-date">2026.03.01</span>
+      </div>
+      <div class="notice-title">시스템 업데이트</div>
+      <div class="notice-body">
+        <ul>
+          <li><span class="tag-new">[신규]</span> 토큰 플랫폼, Grade 시스템 기반 구현</li>
+          <li><span class="tag-new">[신규]</span> 특수공간 구성 (토큰 플랫폼 / 클래스 마을 / The sill / 멀티 플랫폼)</li>
+          <li><span class="tag-new">[신규]</span> 새 NPC 추가 (고대 사서 / 조향사 / 입자물리학자 / 스탯관리자)</li>
         </ul>
       </div>
     </div>
