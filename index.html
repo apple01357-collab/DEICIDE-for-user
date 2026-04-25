@@ -636,223 +636,319 @@
 
   <!-- 도감 -->
   <div class="section" id="codex">
-    <div class="sec-title">차원</div>
-    <div class="codex-grid">
-      <div class="codex-item">
-        <div class="codex-type">Dimension</div>
-        <div class="codex-name">The rest</div>
-        <div class="codex-desc">무의식 차원. Sweet Dream 남용으로 통로가 개방되어 Nightmare 몹이 유입되기 시작한 근원.</div>
-        <span class="codex-tag">개방됨</span><span class="codex-tag">Phase 2</span>
-      </div>
-      <div class="codex-item">
-        <div class="codex-type">Dimension</div>
-        <div class="codex-name">The sill</div>
-        <div class="codex-desc">오버월드와 The rest 사이의 완충 차원. 플레이어가 DEP를 소모하여 구축해야 한다.</div>
-        <span class="codex-tag">건설 중</span><span class="codex-tag">Phase 2 목표</span>
-      </div>
+  <style>
+    /* ── 도감 스타일 (v2) ── */
+    .cdx-tabs{display:flex;gap:6px;margin-bottom:16px;}
+    .cdx-tab{padding:4px 14px;font-size:11px;border:1px solid var(--border);border-radius:20px;cursor:pointer;color:var(--text2);background:transparent;transition:.12s;}
+    .cdx-tab.on{border-color:var(--accent);color:var(--accent);}
+    .cdx-panel{display:none;}.cdx-panel.on{display:block;}
+
+    /* 트리 구조 */
+    .cdx-branch{margin-bottom:14px;}
+    .cdx-branch-title{font-size:10px;letter-spacing:1.5px;color:var(--text3);font-family:'Space Mono',monospace;text-transform:uppercase;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--border);}
+    .cdx-row{display:flex;align-items:flex-start;gap:0;margin-bottom:3px;font-size:11px;line-height:1.5;}
+    .cdx-label{flex:0 0 110px;color:var(--text3);padding-right:10px;padding-top:2px;}
+    .cdx-chips{display:flex;flex-wrap:wrap;gap:4px;flex:1;}
+
+    /* 칩 — 단색 절제 스타일 */
+    .cdx-chip{
+      font-size:11px;padding:2px 8px;border-radius:3px;
+      border:1px solid var(--border);color:var(--text2);
+      background:var(--surface);
+      cursor:default;position:relative;
+    }
+    .cdx-chip.has-tip{cursor:default;}
+    .cdx-chip.todo{opacity:.3;}
+    .cdx-chip.premium{color:#c8a84b;border-color:#3a2e10;}
+    .cdx-chip.dim{color:var(--text3);}
+
+    /* 호버 팝업 — 고정 너비, 왼쪽 정렬 */
+    .cdx-chip[data-tip]{cursor:default;}
+    .cdx-chip[data-tip]:hover::after{
+      content:attr(data-tip);
+      position:absolute;
+      bottom:calc(100% + 5px);
+      left:0;
+      width:200px;
+      background:#1a1a2e;
+      border:1px solid var(--border);
+      border-radius:4px;
+      padding:7px 10px;
+      font-size:10px;line-height:1.6;
+      color:var(--text2);
+      white-space:pre-wrap;
+      z-index:999;
+      pointer-events:none;
+      box-shadow:0 4px 16px rgba(0,0,0,.5);
+    }
+
+    /* 레시피 그리드 */
+    .recipe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px;}
+    .recipe-card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:9px 11px;}
+    .recipe-card.premium{border-color:#3a2e10;}
+    .rcp-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px;}
+    .rcp-name.premium{color:#c8a84b;}
+    .rcp-badge{display:inline-block;font-size:9px;padding:1px 5px;border-radius:2px;margin-bottom:4px;letter-spacing:.5px;}
+    .badge-craft{background:rgba(100,80,0,.3);color:#c8a84b;}
+    .badge-cook{background:rgba(120,50,0,.3);color:#e08050;}
+    .badge-npc{background:rgba(80,0,100,.3);color:#b080d0;}
+    .rcp-mat{font-size:10px;color:var(--text2);line-height:1.6;}
+    .rcp-buff{font-size:10px;color:#4a9a6a;margin-top:3px;}
+  </style>
+
+  <div class="cdx-tabs">
+    <div class="cdx-tab on" onclick="cdxTab('items',this)">아이템</div>
+    <div class="cdx-tab" onclick="cdxTab('recipe',this)">레시피</div>
+  </div>
+
+  <!-- ── 아이템 패널 ── -->
+  <div class="cdx-panel on" id="cdx-items">
+
+    <div class="cdx-branch">
+      <div class="cdx-branch-title">⚗️ 재료</div>
+      <div class="cdx-row"><div class="cdx-label">원재료</div><div class="cdx-chips">
+        <span class="cdx-chip" data-tip="잡돌 처리 드롭">청람 결정 원석</span>
+        <span class="cdx-chip" data-tip="잡돌 처리 드롭">비리다이트 원석</span>
+        <span class="cdx-chip" data-tip="잡돌 처리 드롭">사이아나이트 원석</span>
+      </div></div>
+      <div class="cdx-row"><div class="cdx-label">재료</div><div class="cdx-chips">
+        <span class="cdx-chip" data-tip="청람 결정 원석 → 대장장이 정제&#10;DEP 증서 3개">청람 결정</span>
+        <span class="cdx-chip" data-tip="비리다이트 원석 → 대장장이 정제&#10;DEP 증서 3개">비리다이트</span>
+        <span class="cdx-chip" data-tip="사이아나이트 원석 → 대장장이 정제&#10;DEP 증서 3개">사이아나이트</span>
+      </div></div>
+      <div class="cdx-row"><div class="cdx-label">젬스톤</div><div class="cdx-chips">
+        <span class="cdx-chip" data-tip="야생 수급">루비 원석</span>
+        <span class="cdx-chip" data-tip="야생 수급">사파이어 원석</span>
+      </div></div>
+      <div class="cdx-row"><div class="cdx-label">보석</div><div class="cdx-chips">
+        <span class="cdx-chip" data-tip="루비 원석 → 정제 (DEP 증서 10)">루비</span>
+        <span class="cdx-chip" data-tip="사파이어 원석 → 정제 (DEP 증서 10)">사파이어</span>
+        <span class="cdx-chip" data-tip="루비 ×4 + DEP 증서 5">응축 루비</span>
+        <span class="cdx-chip" data-tip="사파이어 ×4 + DEP 증서 5">응축 사파이어</span>
+        <span class="cdx-chip" data-tip="응축 루비 ×4 + DEP 증서 15">고응축 루비</span>
+        <span class="cdx-chip" data-tip="응축 사파이어 ×4 + DEP 증서 15">고응축 사파이어</span>
+      </div></div>
+      <div class="cdx-row"><div class="cdx-label">유물</div><div class="cdx-chips">
+        <span class="cdx-chip" data-tip="정제 0.01% 부산물">고대 파편</span>
+        <span class="cdx-chip" data-tip="야생 수급">오블리비온</span>
+        <span class="cdx-chip" data-tip="야생 수급">오리칼쿰</span>
+      </div></div>
+      <div class="cdx-row"><div class="cdx-label">미구현</div><div class="cdx-chips">
+        <span class="cdx-chip todo">고무</span><span class="cdx-chip todo">플라스틱</span>
+        <span class="cdx-chip todo">세라믹</span><span class="cdx-chip todo">순수 결정질 금속</span><span class="cdx-chip todo">합금</span>
+      </div></div>
     </div>
-    <div class="sec-title">아이템</div>
 
-    <div class="codex-tree">
-
-      <div class="tree-branch">
-        <div class="tree-root">재료</div>
-        <div class="tree-children">
-
-          <div class="tree-leaf-group">
-            <div class="tree-mid">원재료</div>
-            <div class="tree-leaves">
-              <span class="tree-item">—</span>
-            </div>
-          </div>
-
-          <div class="tree-leaf-group">
-            <div class="tree-mid">젬스톤</div>
-            <div class="tree-leaves">
-              <span class="tree-item">—</span>
-            </div>
-          </div>
-
-          <div class="tree-leaf-group">
-            <div class="tree-mid">보석</div>
-            <div class="tree-leaves">
-              <span class="tree-item">—</span>
-            </div>
-          </div>
-
-          <div class="tree-leaf-group">
-            <div class="tree-mid">가공재료</div>
-            <div class="tree-leaves">
-              <span class="tree-item">고무</span>
-              <span class="tree-item">플라스틱</span>
-              <span class="tree-item">세라믹</span>
-              <span class="tree-item">금속 (순수 결정질)</span>
-              <span class="tree-item">합금</span>
-            </div>
-          </div>
-
-          <div class="tree-leaf-group">
-            <div class="tree-mid">유물</div>
-            <div class="tree-leaves">
-              <span class="tree-item">—</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="tree-branch">
-        <div class="tree-root">장비</div>
-        <div class="tree-children">
-
-          <div class="tree-leaf-group">
-            <div class="tree-mid">특수장비 — 무기</div>
-            <div class="tree-leaves">
-              <span class="tree-item">—</span>
-            </div>
-          </div>
-
-          <div class="tree-leaf-group">
-            <div class="tree-mid">특수장비 — 방어구</div>
-            <div class="tree-leaves">
-              <span class="tree-item">—</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="tree-branch">
-        <div class="tree-root">작물</div>
-        <div class="tree-children">
-
-          <div class="tree-leaf-group">
-            <div class="tree-mid">식재료</div>
-            <div class="tree-leaves">
-              <span class="tree-item">쌀</span>
-              <span class="tree-item">파</span>
-              <span class="tree-item">양파</span>
-              <span class="tree-item">양배추</span>
-              <span class="tree-item">체리</span>
-            </div>
-          </div>
-
-          <div class="tree-leaf-group">
-            <div class="tree-mid">양조 재료</div>
-            <div class="tree-leaves">
-              <span class="tree-item">보리</span>
-              <span class="tree-item">포도</span>
-              <span class="tree-item">주니퍼베리</span>
-              <span class="tree-item">용설란</span>
-              <span class="tree-item">피트 블럭</span>
-            </div>
-          </div>
-
-          <div class="tree-leaf-group">
-            <div class="tree-mid">허브</div>
-            <div class="tree-leaves">
-              <span class="tree-item">로즈마리</span>
-              <span class="tree-item">—</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="tree-branch">
-        <div class="tree-root">음식·음료</div>
-        <div class="tree-children">
-
-          <div class="tree-leaf-group">
-            <div class="tree-mid">한식</div>
-            <div class="tree-leaves"><span class="tree-item">—</span></div>
-          </div>
-          <div class="tree-leaf-group">
-            <div class="tree-mid">양식</div>
-            <div class="tree-leaves"><span class="tree-item">—</span></div>
-          </div>
-          <div class="tree-leaf-group">
-            <div class="tree-mid">지중해식</div>
-            <div class="tree-leaves"><span class="tree-item">—</span></div>
-          </div>
-          <div class="tree-leaf-group">
-            <div class="tree-mid">패스트푸드</div>
-            <div class="tree-leaves"><span class="tree-item">—</span></div>
-          </div>
-          <div class="tree-leaf-group">
-            <div class="tree-mid">카페 음료</div>
-            <div class="tree-leaves"><span class="tree-item">—</span></div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="tree-branch">
-        <div class="tree-root">양조·증류주</div>
-        <div class="tree-children">
-
-          <div class="tree-leaf-group">
-            <div class="tree-mid">위스키</div>
-            <div class="tree-leaves"><span class="tree-item">—</span></div>
-          </div>
-          <div class="tree-leaf-group">
-            <div class="tree-mid">와인</div>
-            <div class="tree-leaves"><span class="tree-item">—</span></div>
-          </div>
-          <div class="tree-leaf-group">
-            <div class="tree-mid">진</div>
-            <div class="tree-leaves"><span class="tree-item">—</span></div>
-          </div>
-          <div class="tree-leaf-group">
-            <div class="tree-mid">데킬라</div>
-            <div class="tree-leaves"><span class="tree-item">—</span></div>
-          </div>
-          <div class="tree-leaf-group">
-            <div class="tree-mid">럼</div>
-            <div class="tree-leaves"><span class="tree-item">—</span></div>
-          </div>
-          <div class="tree-leaf-group">
-            <div class="tree-mid">보드카</div>
-            <div class="tree-leaves"><span class="tree-item">—</span></div>
-          </div>
-          <div class="tree-leaf-group">
-            <div class="tree-mid">리큐르</div>
-            <div class="tree-leaves"><span class="tree-item">—</span></div>
-          </div>
-
-        </div>
-      </div>
-
+    <div class="cdx-branch">
+      <div class="cdx-branch-title">💰 화폐</div>
+      <div class="cdx-row"><div class="cdx-label">DEP</div><div class="cdx-chips">
+        <span class="cdx-chip">DEP</span>
+        <span class="cdx-chip" data-tip="DEP 10개 → 증서 1개">DEP 증서</span>
+      </div></div>
+      <div class="cdx-row"><div class="cdx-label">Token</div><div class="cdx-chips">
+        <span class="cdx-chip">토큰 100</span>
+      </div></div>
     </div>
-    <div class="sec-title">NPC</div>
-    <div class="codex-grid">
-      <div class="codex-item">
-        <div class="codex-type">Ancient Librarian</div>
-        <div class="codex-name">고대 사서</div>
-        <div class="codex-desc">재앙에서 살아남은 사서. 플레이어에게 메인 스토리 퀘스트를 부여하고 The sill 구축을 요청한다.</div>
-        <span class="codex-tag">토큰 플랫폼</span>
-      </div>
-      <div class="codex-item">
-        <div class="codex-type">NPC</div>
-        <div class="codex-name">입자물리학자</div>
-        <div class="codex-desc">DEP 연구 전문가. DEP 기부, 포집 장치 제조, 포집관 가챠를 담당한다.</div>
-        <span class="codex-tag">클래스 마을</span>
-      </div>
-      <div class="codex-item">
-        <div class="codex-type">NPC</div>
-        <div class="codex-name">조향사</div>
-        <div class="codex-desc">Sweet Dream 전문가. 스윗드림 구매, 꿈 책 제조, 꿈 도서관 이동을 안내한다.</div>
-        <span class="codex-tag">클래스 마을</span>
-      </div>
-      <div class="codex-item">
-        <div class="codex-type">NPC</div>
-        <div class="codex-name">대장장이</div>
-        <div class="codex-desc">원재료 정제와 커스텀 장비 제작을 담당. 보석이 포함된 특수 장비를 다룬다.</div>
-        <span class="codex-tag">클래스 마을</span>
-      </div>
+
+    <div class="cdx-branch">
+      <div class="cdx-branch-title">🌿 작물 · 식재료</div>
+      <div class="cdx-row"><div class="cdx-label">밭 경작</div><div class="cdx-chips">
+        <span class="cdx-chip">쌀</span><span class="cdx-chip">파</span><span class="cdx-chip">양파</span>
+        <span class="cdx-chip">양배추</span><span class="cdx-chip">체리</span><span class="cdx-chip">보리</span>
+        <span class="cdx-chip">포도</span><span class="cdx-chip">주니퍼베리</span><span class="cdx-chip">용설란</span>
+        <span class="cdx-chip">로즈마리</span><span class="cdx-chip">고추</span><span class="cdx-chip">마늘</span>
+        <span class="cdx-chip">깨</span><span class="cdx-chip">깻잎</span><span class="cdx-chip">올리브</span>
+        <span class="cdx-chip" data-tip="생장 느림, 희귀 약초">인삼</span>
+      </div></div>
+      <div class="cdx-row"><div class="cdx-label">자연생성</div><div class="cdx-chips">
+        <span class="cdx-chip dim" data-tip="해안가/습지 지하 자연생성">피트 블럭</span>
+        <span class="cdx-chip dim" data-tip="따뜻한 바다 해저 모래/자갈 채굴">가리비</span>
+        <span class="cdx-chip dim" data-tip="숲 바이옴 흙 채굴 희귀 드롭">트러플</span>
+        <span class="cdx-chip dim" data-tip="따뜻한 바다 해저 모래 채굴">랍스터</span>
+        <span class="cdx-chip" data-tip="랍스터 → 화로/훈연기">구운 랍스터</span>
+      </div></div>
+      <div class="cdx-row"><div class="cdx-label">바닐라</div><div class="cdx-chips">
+        <span class="cdx-chip dim">달걀</span><span class="cdx-chip dim">우유</span>
+        <span class="cdx-chip dim">설탕</span><span class="cdx-chip dim">밀 / 빵</span>
+        <span class="cdx-chip dim">코코아 콩</span><span class="cdx-chip dim">꿀병</span>
+        <span class="cdx-chip dim">사과</span><span class="cdx-chip dim">감자 / 당근 / 비트루트</span>
+        <span class="cdx-chip dim">수박 / 호박</span><span class="cdx-chip dim">달콤한 열매</span>
+        <span class="cdx-chip dim">버섯</span><span class="cdx-chip dim">연어 / 대구</span>
+        <span class="cdx-chip dim">닭 / 소 / 돼지 / 양 / 토끼</span>
+      </div></div>
+    </div>
+
+    <div class="cdx-branch">
+      <div class="cdx-branch-title">🫙 가공 재료</div>
+      <div class="cdx-row"><div class="cdx-label">제작대</div><div class="cdx-chips">
+        <span class="cdx-chip" data-tip="깨 ×4">참기름</span>
+        <span class="cdx-chip" data-tip="올리브 ×4">올리브오일</span>
+        <span class="cdx-chip" data-tip="고추×2 + 밀 + 설탕">고추장</span>
+        <span class="cdx-chip" data-tip="우유 ×2">버터</span>
+        <span class="cdx-chip" data-tip="우유×2 + 발효된 거미눈">치즈</span>
+        <span class="cdx-chip" data-tip="포도 ×3">포도즙</span>
+        <span class="cdx-chip" data-tip="체리×3 + 설탕">체리잼</span>
+        <span class="cdx-chip" data-tip="코코아콩 ×2">코코아 파우더</span>
+        <span class="cdx-chip" data-tip="밀×2 + 달걀">반죽</span>
+        <span class="cdx-chip" data-tip="비트루트×2 + 마늘">토마토소스</span>
+        <span class="cdx-chip" data-tip="꿀병 + 설탕">꿀 글레이즈</span>
+        <span class="cdx-chip" data-tip="갈색버섯×2 + 그릇">버섯 육수</span>
+        <span class="cdx-chip" data-tip="트러플 + 버터">트러플소스</span>
+        <span class="cdx-chip" data-tip="깨×2 + 설탕">홀그레인 머스타드</span>
+      </div></div>
+      <div class="cdx-row"><div class="cdx-label">훈연기</div><div class="cdx-chips">
+        <span class="cdx-chip" data-tip="인삼 ×2">인삼 육수</span>
+      </div></div>
+    </div>
+
+    <div class="cdx-branch">
+      <div class="cdx-branch-title">🍽️ 요리</div>
+      <div class="cdx-row"><div class="cdx-label">한식</div><div class="cdx-chips">
+        <span class="cdx-chip" data-tip="쌀×2 + 그릇">쌀밥</span>
+        <span class="cdx-chip" data-tip="파×2 + 달걀 + 참기름">파전</span>
+        <span class="cdx-chip" data-tip="양배추×2 + 마늘 + 참기름">양배추볶음</span>
+        <span class="cdx-chip" data-tip="구운닭×2 + 양파 + 마늘 + 고추장">닭볶음탕</span>
+        <span class="cdx-chip" data-tip="쌀 + 양배추 + 깻잎 + 고추장">비빔밥</span>
+        <span class="cdx-chip" data-tip="구운돼지×2 + 마늘×2 + 깻잎">마늘 삼겹살</span>
+        <span class="cdx-chip" data-tip="쌀×3 + 꿀병">꿀 찰떡</span>
+        <span class="cdx-chip" data-tip="버섯육수 + 파 + 양파">버섯된장국</span>
+        <span class="cdx-chip" data-tip="깻잎×3 + 마늘 + 구운돼지">깻잎쌈</span>
+        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요&#10;비빔밥 + 황금사과 + 깻잎×2&#10;→ 재생 + 속도">★ 고급 비빔밥</span>
+        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요&#10;구운닭×2 + 쌀 + 마늘×2 + 인삼육수&#10;→ 재생2 + 체력증가">★ 삼계탕</span>
+        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요&#10;구운소고기×2 + 마늘×2 + 고추장 + 꿀글레이즈&#10;→ 힘 + 저항">★ 왕갈비찜</span>
+      </div></div>
+      <div class="cdx-row"><div class="cdx-label">양식</div><div class="cdx-chips">
+        <span class="cdx-chip" data-tip="체리잼 + 반죽">체리 파이</span>
+        <span class="cdx-chip" data-tip="빵 + 포도즙 + 설탕">포도잼 토스트</span>
+        <span class="cdx-chip" data-tip="구운닭×2 + 로즈마리 + 버터">허브치킨</span>
+        <span class="cdx-chip" data-tip="구운소고기 + 버터 + 로즈마리">스테이크</span>
+        <span class="cdx-chip" data-tip="우유 + 양파 + 버터 + 그릇">크림 수프</span>
+        <span class="cdx-chip" data-tip="사과×2 + 반죽 + 설탕">사과 파이</span>
+        <span class="cdx-chip" data-tip="구운닭×2 + 꿀 글레이즈">꿀 구이 닭</span>
+        <span class="cdx-chip" data-tip="구운양고기×2 + 로즈마리 + 올리브오일">양갈비</span>
+        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요&#10;스테이크 + 트러플소스 + 로즈마리&#10;→ 힘2 + 재생">★ 트러플 스테이크</span>
+      </div></div>
+      <div class="cdx-row"><div class="cdx-label">지중해식</div><div class="cdx-chips">
+        <span class="cdx-chip" data-tip="밀×2 + 올리브오일 + 마늘">올리브오일 파스타</span>
+        <span class="cdx-chip" data-tip="가리비×2 + 버터 + 마늘">버터가리비구이</span>
+        <span class="cdx-chip" data-tip="빵 + 올리브오일 + 마늘 + 치즈">브루스케타</span>
+        <span class="cdx-chip" data-tip="구운대구 + 로즈마리 + 올리브오일">허브 생선구이</span>
+        <span class="cdx-chip" data-tip="구운연어 + 밀×2 + 올리브오일">연어 파스타</span>
+        <span class="cdx-chip" data-tip="치즈 + 올리브×2 + 수박">그리스 샐러드</span>
+        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요&#10;연어×2 + 올리브오일 + 가리비 + 체리잼&#10;→ 수중호흡 + 신속">★ 연어 타르타르</span>
+        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요&#10;구운랍스터 + 버터 + 로즈마리 + 꿀글레이즈&#10;→ 점프 + 속도">★ 허브 랍스터</span>
+      </div></div>
+      <div class="cdx-row"><div class="cdx-label">패스트푸드</div><div class="cdx-chips">
+        <span class="cdx-chip" data-tip="반죽 + 구운소고기 + 양배추 + 양파">버거</span>
+        <span class="cdx-chip" data-tip="반죽 + 구운돼지 + 고추장">핫도그</span>
+        <span class="cdx-chip" data-tip="반죽 + 토마토소스 + 치즈">피자</span>
+        <span class="cdx-chip" data-tip="닭×2 + 밀 + 달걀">프라이드치킨</span>
+        <span class="cdx-chip" data-tip="감자×3 + 올리브오일">감자튀김</span>
+        <span class="cdx-chip" data-tip="반죽 + 구운돼지 + 달걀">바나나킥</span>
+        <span class="cdx-chip" data-tip="호박×2 + 우유 + 그릇">호박 수프</span>
+        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요&#10;버거 + 황금당근 + 치즈×2&#10;→ 야간투시 + 포만">★ 골드 버거</span>
+      </div></div>
+      <div class="cdx-row"><div class="cdx-label">카페음료</div><div class="cdx-chips">
+        <span class="cdx-chip" data-tip="훈연기: 보리">보리차</span>
+        <span class="cdx-chip" data-tip="훈연기: 로즈마리">허브티</span>
+        <span class="cdx-chip" data-tip="훈연기: 코코아콩×2">커피</span>
+        <span class="cdx-chip" data-tip="제작대: 커피 + 우유">라떼</span>
+        <span class="cdx-chip" data-tip="제작대: 우유 + 코코아파우더 + 설탕">초코우유</span>
+        <span class="cdx-chip" data-tip="제작대: 체리잼 + 포도즙 + 그릇">과일주스</span>
+        <span class="cdx-chip" data-tip="제작대: 체리잼 + 설탕 + 그릇">체리에이드</span>
+        <span class="cdx-chip" data-tip="제작대: 꿀병 + 달콤한열매×2 + 그릇">꿀레몬차</span>
+        <span class="cdx-chip" data-tip="제작대: 달콤한열매×3 + 우유 + 그릇">베리 스무디</span>
+        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요&#10;라떼 + 꿀병 + 코코아파우더 + 설탕&#10;→ 신속 + 행운">★ 로얄 라떼</span>
+      </div></div>
+      <div class="cdx-row"><div class="cdx-label">양조·증류주</div><div class="cdx-chips">
+        <span class="cdx-chip todo">위스키</span><span class="cdx-chip todo">와인</span>
+        <span class="cdx-chip todo">진</span><span class="cdx-chip todo">데킬라</span>
+        <span class="cdx-chip todo">럼</span><span class="cdx-chip todo">보드카</span><span class="cdx-chip todo">리큐르</span>
+      </div></div>
+    </div>
+
+  </div>
+
+  <!-- ── 레시피 패널 ── -->
+  <div class="cdx-panel" id="cdx-recipe">
+    <p style="font-size:11px;color:var(--text3);margin-bottom:12px;">이름에 마우스를 올리면 재료를 확인할 수 있습니다.</p>
+    <div class="recipe-grid">
+      <div class="recipe-card"><div class="rcp-name">참기름</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">깨 ×4</div></div>
+      <div class="recipe-card"><div class="rcp-name">올리브오일</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">올리브 ×4</div></div>
+      <div class="recipe-card"><div class="rcp-name">고추장</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">고추×2 + 밀 + 설탕</div></div>
+      <div class="recipe-card"><div class="rcp-name">버터</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">우유 ×2</div></div>
+      <div class="recipe-card"><div class="rcp-name">치즈</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">우유×2 + 발효된 거미눈</div></div>
+      <div class="recipe-card"><div class="rcp-name">포도즙</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">포도 ×3</div></div>
+      <div class="recipe-card"><div class="rcp-name">체리잼</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">체리×3 + 설탕</div></div>
+      <div class="recipe-card"><div class="rcp-name">코코아 파우더</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">코코아콩 ×2</div></div>
+      <div class="recipe-card"><div class="rcp-name">반죽</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">밀×2 + 달걀</div></div>
+      <div class="recipe-card"><div class="rcp-name">토마토소스</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">비트루트×2 + 마늘</div></div>
+      <div class="recipe-card"><div class="rcp-name">꿀 글레이즈</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">꿀병 + 설탕</div></div>
+      <div class="recipe-card"><div class="rcp-name">버섯 육수</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">갈색버섯×2 + 그릇</div></div>
+      <div class="recipe-card"><div class="rcp-name">트러플소스</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">트러플 + 버터</div></div>
+      <div class="recipe-card"><div class="rcp-name">홀그레인 머스타드</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">깨×2 + 설탕</div></div>
+      <div class="recipe-card"><div class="rcp-name">인삼 육수</div><span class="rcp-badge badge-cook">훈연기</span><div class="rcp-mat">인삼 ×2</div></div>
+      <div class="recipe-card"><div class="rcp-name">구운 랍스터</div><span class="rcp-badge badge-cook">훈연기</span><div class="rcp-mat">랍스터</div></div>
+      <div class="recipe-card"><div class="rcp-name">쌀밥</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">쌀×2 + 그릇</div></div>
+      <div class="recipe-card"><div class="rcp-name">파전</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">파×2 + 달걀 + 참기름</div></div>
+      <div class="recipe-card"><div class="rcp-name">양배추볶음</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">양배추×2 + 마늘 + 참기름</div></div>
+      <div class="recipe-card"><div class="rcp-name">닭볶음탕</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">구운닭×2 + 양파 + 마늘 + 고추장</div></div>
+      <div class="recipe-card"><div class="rcp-name">비빔밥</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">쌀 + 양배추 + 깻잎 + 고추장</div></div>
+      <div class="recipe-card"><div class="rcp-name">마늘 삼겹살</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">구운돼지×2 + 마늘×2 + 깻잎</div></div>
+      <div class="recipe-card"><div class="rcp-name">꿀 찰떡</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">쌀×3 + 꿀병</div></div>
+      <div class="recipe-card"><div class="rcp-name">버섯된장국</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">버섯육수 + 파 + 양파</div></div>
+      <div class="recipe-card"><div class="rcp-name">깻잎쌈</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">깻잎×3 + 마늘 + 구운돼지</div></div>
+      <div class="recipe-card"><div class="rcp-name">체리 파이</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">체리잼 + 반죽</div></div>
+      <div class="recipe-card"><div class="rcp-name">포도잼 토스트</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">빵 + 포도즙 + 설탕</div></div>
+      <div class="recipe-card"><div class="rcp-name">허브치킨</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">구운닭×2 + 로즈마리 + 버터</div></div>
+      <div class="recipe-card"><div class="rcp-name">스테이크</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">구운소고기 + 버터 + 로즈마리</div></div>
+      <div class="recipe-card"><div class="rcp-name">크림 수프</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">우유 + 양파 + 버터 + 그릇</div></div>
+      <div class="recipe-card"><div class="rcp-name">사과 파이</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">사과×2 + 반죽 + 설탕</div></div>
+      <div class="recipe-card"><div class="rcp-name">꿀 구이 닭</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">구운닭×2 + 꿀 글레이즈</div></div>
+      <div class="recipe-card"><div class="rcp-name">양갈비</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">구운양고기×2 + 로즈마리 + 올리브오일</div></div>
+      <div class="recipe-card"><div class="rcp-name">올리브오일 파스타</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">밀×2 + 올리브오일 + 마늘</div></div>
+      <div class="recipe-card"><div class="rcp-name">버터가리비구이</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">가리비×2 + 버터 + 마늘</div></div>
+      <div class="recipe-card"><div class="rcp-name">브루스케타</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">빵 + 올리브오일 + 마늘 + 치즈</div></div>
+      <div class="recipe-card"><div class="rcp-name">허브 생선구이</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">구운대구 + 로즈마리 + 올리브오일</div></div>
+      <div class="recipe-card"><div class="rcp-name">연어 파스타</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">구운연어 + 밀×2 + 올리브오일</div></div>
+      <div class="recipe-card"><div class="rcp-name">그리스 샐러드</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">치즈 + 올리브×2 + 수박</div></div>
+      <div class="recipe-card"><div class="rcp-name">버거</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">반죽 + 구운소고기 + 양배추 + 양파</div></div>
+      <div class="recipe-card"><div class="rcp-name">핫도그</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">반죽 + 구운돼지 + 고추장</div></div>
+      <div class="recipe-card"><div class="rcp-name">피자</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">반죽 + 토마토소스 + 치즈</div></div>
+      <div class="recipe-card"><div class="rcp-name">프라이드치킨</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">닭×2 + 밀 + 달걀</div></div>
+      <div class="recipe-card"><div class="rcp-name">감자튀김</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">감자×3 + 올리브오일</div></div>
+      <div class="recipe-card"><div class="rcp-name">바나나킥</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">반죽 + 구운돼지 + 달걀</div></div>
+      <div class="recipe-card"><div class="rcp-name">호박 수프</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">호박×2 + 우유 + 그릇</div></div>
+      <div class="recipe-card"><div class="rcp-name">보리차</div><span class="rcp-badge badge-cook">훈연기</span><div class="rcp-mat">보리</div></div>
+      <div class="recipe-card"><div class="rcp-name">허브티</div><span class="rcp-badge badge-cook">훈연기</span><div class="rcp-mat">로즈마리</div></div>
+      <div class="recipe-card"><div class="rcp-name">커피</div><span class="rcp-badge badge-cook">훈연기</span><div class="rcp-mat">코코아콩 ×2</div></div>
+      <div class="recipe-card"><div class="rcp-name">라떼</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">커피 + 우유</div></div>
+      <div class="recipe-card"><div class="rcp-name">초코우유</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">우유 + 코코아파우더 + 설탕</div></div>
+      <div class="recipe-card"><div class="rcp-name">과일주스</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">체리잼 + 포도즙 + 그릇</div></div>
+      <div class="recipe-card"><div class="rcp-name">체리에이드</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">체리잼 + 설탕 + 그릇</div></div>
+      <div class="recipe-card"><div class="rcp-name">꿀레몬차</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">꿀병 + 달콤한열매×2 + 그릇</div></div>
+      <div class="recipe-card"><div class="rcp-name">베리 스무디</div><span class="rcp-badge badge-craft">제작대</span><div class="rcp-mat">달콤한열매×3 + 우유 + 그릇</div></div>
+      <div class="recipe-card premium"><div class="rcp-name premium">★ 고급 비빔밥</div><span class="rcp-badge badge-npc">레시피 구매</span><div class="rcp-mat">비빔밥 + 황금사과 + 깻잎×2</div><div class="rcp-buff">재생 + 속도</div></div>
+      <div class="recipe-card premium"><div class="rcp-name premium">★ 삼계탕</div><span class="rcp-badge badge-npc">레시피 구매</span><div class="rcp-mat">구운닭×2 + 쌀 + 마늘×2 + 인삼육수</div><div class="rcp-buff">재생2 + 체력증가</div></div>
+      <div class="recipe-card premium"><div class="rcp-name premium">★ 왕갈비찜</div><span class="rcp-badge badge-npc">레시피 구매</span><div class="rcp-mat">구운소고기×2 + 마늘×2 + 고추장 + 꿀글레이즈</div><div class="rcp-buff">힘 + 저항</div></div>
+      <div class="recipe-card premium"><div class="rcp-name premium">★ 트러플 스테이크</div><span class="rcp-badge badge-npc">레시피 구매</span><div class="rcp-mat">스테이크 + 트러플소스 + 로즈마리</div><div class="rcp-buff">힘2 + 재생</div></div>
+      <div class="recipe-card premium"><div class="rcp-name premium">★ 연어 타르타르</div><span class="rcp-badge badge-npc">레시피 구매</span><div class="rcp-mat">연어×2 + 올리브오일 + 가리비 + 체리잼</div><div class="rcp-buff">수중호흡 + 신속</div></div>
+      <div class="recipe-card premium"><div class="rcp-name premium">★ 허브 랍스터</div><span class="rcp-badge badge-npc">레시피 구매</span><div class="rcp-mat">구운랍스터 + 버터 + 로즈마리 + 꿀글레이즈</div><div class="rcp-buff">점프 + 속도</div></div>
+      <div class="recipe-card premium"><div class="rcp-name premium">★ 골드 버거</div><span class="rcp-badge badge-npc">레시피 구매</span><div class="rcp-mat">버거 + 황금당근 + 치즈×2</div><div class="rcp-buff">야간투시 + 포만</div></div>
+      <div class="recipe-card premium"><div class="rcp-name premium">★ 로얄 라떼</div><span class="rcp-badge badge-npc">레시피 구매</span><div class="rcp-mat">라떼 + 꿀병 + 코코아파우더 + 설탕</div><div class="rcp-buff">신속 + 행운</div></div>
     </div>
   </div>
-</div>
+
+  <script>
+    function cdxTab(id, el) {
+      document.querySelectorAll('.cdx-panel').forEach(p => p.classList.remove('on'));
+      document.querySelectorAll('.cdx-tab').forEach(t => t.classList.remove('on'));
+      document.getElementById('cdx-' + id).classList.add('on');
+      el.classList.add('on');
+    }
+  </script>
+
+  </div>
 
 <script>
   function show(id, btn) {
