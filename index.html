@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
+<html lang="ko"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DEICIDE</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #080810; --surface: #0e0e1a; --border: #1e1e32;
@@ -19,9 +17,10 @@
   .title span { color: var(--accent); }
   .subtitle { font-size: 10px; color: var(--muted); letter-spacing: 2px; font-family: 'Space Mono', monospace; }
   .server-badge { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--phase2); border: 1px solid var(--phase2); padding: 4px 10px; }
-  .server-addr { color: var(--accent); cursor: default; position: relative; }
-  .server-addr::after { content: attr(title); position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%); background: #1a1a2e; border: 1px solid var(--border); color: var(--text); font-size: 9px; white-space: nowrap; padding: 4px 8px; pointer-events: none; opacity: 0; transition: opacity 0.2s; letter-spacing: 1px; }
-  .server-addr:hover::after { opacity: 1; }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .discord-link { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; color: var(--muted); transition: color 0.15s; }
+  .discord-link:hover { color: #5865F2; }
+  .discord-link svg { width: 18px; height: 18px; }
   .nav { display: flex; gap: 0; margin-bottom: 28px; border-bottom: 1px solid var(--border); overflow-x: auto; }
   .nav-btn { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 1px; padding: 10px 16px; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--muted); cursor: pointer; transition: all 0.2s; text-transform: uppercase; white-space: nowrap; margin-bottom: -1px; }
   .nav-btn:hover { color: var(--accent); }
@@ -166,9 +165,14 @@
   <div class="header">
     <div>
       <div class="title">DEI<span>CIDE</span></div>
-      <div class="subtitle">Minecraft Survival Server · <span class="server-addr" title="멀티플레이 → 직접연결 / 서버추가 → 서버 주소 입력">deicide.r-e.kr</span> · Paper 1.21.11</div>
+      <div class="subtitle">Minecraft Survival Server</div>
     </div>
-    <div class="server-badge">PHASE 2 — NIGHTMARE</div>
+    <div class="header-right">
+      <div class="server-badge">PHASE 2 — NIGHTMARE</div>
+      <a class="discord-link" href="https://discord.gg/7wJbxmGpsc" target="_blank" rel="noopener" title="디스코드 참여">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.522 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9459 2.4189-2.1568 2.4189Z"></path></svg>
+      </a>
+    </div>
   </div>
 
   <div class="nav">
@@ -370,6 +374,40 @@
 
   <!-- 업데이트 내역 -->
   <div class="section" id="updates">
+    <div class="notice-item">
+      <div class="notice-header">
+        <span class="notice-tag patch">ALPHA</span>
+        <span class="notice-tag fix">PATCH</span>
+        <span class="notice-date">2026.09.05</span>
+      </div>
+      <div class="notice-title">서버 버전 업그레이드 (26.2 / Java 25)</div>
+      <div class="notice-body">
+        <ul>
+          <li><span class="tag-change">[변경]</span> 서버 버전 업그레이드 — 1.21.11 → 26.2</li>
+          <li><span class="tag-change">[변경]</span> 접속하려면 마인크래프트 클라이언트를 26.2 버전으로 업데이트해주세요 (Java 25 필요)</li>
+          <li><span class="tag-change">[변경]</span> 관련 시스템 전반 안정성 점검 및 개선</li>
+        </ul>
+      </div>
+    </div>
+    <div class="notice-item">
+      <div class="notice-header">
+        <span class="notice-tag patch">ALPHA</span>
+        <span class="notice-tag new">UPDATE</span>
+        <span class="notice-date">2026.04.28</span>
+      </div>
+      <div class="notice-title">커스텀 작물 · 요리 · 채집 시스템</div>
+      <div class="notice-body">
+        <ul>
+          <li><span class="tag-new">[신규]</span> 특수작물농부 NPC — 씨앗 구매, 작물 매입, 고급 레시피북 판매</li>
+          <li><span class="tag-new">[신규]</span> 커스텀 작물 16종 — 씨앗 구매 후 밭에 경작, 수확한 작물을 에메랄드로 매입</li>
+          <li><span class="tag-new">[신규]</span> 커스텀 요리 시스템 — 제작대·훈연기로 가공 재료 및 요리 제작</li>
+          <li><span class="tag-new">[신규]</span> 고급 요리 8종 — 레시피북 구매 후 영구 해금, 특수 효과 부여</li>
+          <li><span class="tag-new">[신규]</span> 작물 시세 변동 — 6시간마다 트렌드 재설정. 고수요 ▲ / 저수요 ▼ 표시</li>
+          <li><span class="tag-new">[신규]</span> 채집 아이템 자연생성 — 피트블럭(해안가 지하), 가리비(따뜻한 바다 해저), 랍스터(차가운 깊은 바다 해저), 트러플(다크포레스트)</li>
+          <li><span class="tag-new">[신규]</span> 도전과제 보상 미수령 시스템 — 인벤 가득 시 자동 보관, 재접속하면 자동 지급</li>
+        </ul>
+      </div>
+    </div>
     <div class="notice-item">
       <div class="notice-header">
         <span class="notice-tag patch">ALPHA</span>
@@ -813,9 +851,15 @@
         <span class="cdx-chip" data-tip="쌀×3 + 꿀병">꿀 찰떡</span>
         <span class="cdx-chip" data-tip="버섯육수 + 파 + 양파">버섯된장국</span>
         <span class="cdx-chip" data-tip="깻잎×3 + 마늘 + 구운돼지">깻잎쌈</span>
-        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요&#10;비빔밥 + 황금사과 + 깻잎×2&#10;→ 재생 + 속도">★ 고급 비빔밥</span>
-        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요&#10;구운닭×2 + 쌀 + 마늘×2 + 인삼육수&#10;→ 재생2 + 체력증가">★ 삼계탕</span>
-        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요&#10;구운소고기×2 + 마늘×2 + 고추장 + 꿀글레이즈&#10;→ 힘 + 저항">★ 왕갈비찜</span>
+        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요
+비빔밥 + 황금사과 + 깻잎×2
+→ 재생 + 속도">★ 고급 비빔밥</span>
+        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요
+구운닭×2 + 쌀 + 마늘×2 + 인삼육수
+→ 재생2 + 체력증가">★ 삼계탕</span>
+        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요
+구운소고기×2 + 마늘×2 + 고추장 + 꿀글레이즈
+→ 힘 + 저항">★ 왕갈비찜</span>
       </div></div>
       <div class="cdx-row"><div class="cdx-label">양식</div><div class="cdx-chips">
         <span class="cdx-chip" data-tip="체리잼 + 반죽">체리 파이</span>
@@ -826,7 +870,9 @@
         <span class="cdx-chip" data-tip="사과×2 + 반죽 + 설탕">사과 파이</span>
         <span class="cdx-chip" data-tip="구운닭×2 + 꿀 글레이즈">꿀 구이 닭</span>
         <span class="cdx-chip" data-tip="구운양고기×2 + 로즈마리 + 올리브오일">양갈비</span>
-        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요&#10;스테이크 + 트러플소스 + 로즈마리&#10;→ 힘2 + 재생">★ 트러플 스테이크</span>
+        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요
+스테이크 + 트러플소스 + 로즈마리
+→ 힘2 + 재생">★ 트러플 스테이크</span>
       </div></div>
       <div class="cdx-row"><div class="cdx-label">지중해식</div><div class="cdx-chips">
         <span class="cdx-chip" data-tip="밀×2 + 올리브오일 + 마늘">올리브오일 파스타</span>
@@ -835,8 +881,12 @@
         <span class="cdx-chip" data-tip="구운대구 + 로즈마리 + 올리브오일">허브 생선구이</span>
         <span class="cdx-chip" data-tip="구운연어 + 밀×2 + 올리브오일">연어 파스타</span>
         <span class="cdx-chip" data-tip="치즈 + 올리브×2 + 수박">그리스 샐러드</span>
-        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요&#10;연어×2 + 올리브오일 + 가리비 + 체리잼&#10;→ 수중호흡 + 신속">★ 연어 타르타르</span>
-        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요&#10;구운랍스터 + 버터 + 로즈마리 + 꿀글레이즈&#10;→ 점프 + 속도">★ 허브 랍스터</span>
+        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요
+연어×2 + 올리브오일 + 가리비 + 체리잼
+→ 수중호흡 + 신속">★ 연어 타르타르</span>
+        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요
+구운랍스터 + 버터 + 로즈마리 + 꿀글레이즈
+→ 점프 + 속도">★ 허브 랍스터</span>
       </div></div>
       <div class="cdx-row"><div class="cdx-label">패스트푸드</div><div class="cdx-chips">
         <span class="cdx-chip" data-tip="반죽 + 구운소고기 + 양배추 + 양파">버거</span>
@@ -846,7 +896,9 @@
         <span class="cdx-chip" data-tip="감자×3 + 올리브오일">감자튀김</span>
         <span class="cdx-chip" data-tip="반죽 + 구운돼지 + 달걀">바나나킥</span>
         <span class="cdx-chip" data-tip="호박×2 + 우유 + 그릇">호박 수프</span>
-        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요&#10;버거 + 황금당근 + 치즈×2&#10;→ 야간투시 + 포만">★ 골드 버거</span>
+        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요
+버거 + 황금당근 + 치즈×2
+→ 야간투시 + 포만">★ 골드 버거</span>
       </div></div>
       <div class="cdx-row"><div class="cdx-label">카페음료</div><div class="cdx-chips">
         <span class="cdx-chip" data-tip="훈연기: 보리">보리차</span>
@@ -858,7 +910,9 @@
         <span class="cdx-chip" data-tip="제작대: 체리잼 + 설탕 + 그릇">체리에이드</span>
         <span class="cdx-chip" data-tip="제작대: 꿀병 + 달콤한열매×2 + 그릇">꿀레몬차</span>
         <span class="cdx-chip" data-tip="제작대: 달콤한열매×3 + 우유 + 그릇">베리 스무디</span>
-        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요&#10;라떼 + 꿀병 + 코코아파우더 + 설탕&#10;→ 신속 + 행운">★ 로얄 라떼</span>
+        <span class="cdx-chip premium" data-tip="★ 레시피 구매 필요
+라떼 + 꿀병 + 코코아파우더 + 설탕
+→ 신속 + 행운">★ 로얄 라떼</span>
       </div></div>
       <div class="cdx-row"><div class="cdx-label">양조·증류주</div><div class="cdx-chips">
         <span class="cdx-chip todo">위스키</span><span class="cdx-chip todo">와인</span>
@@ -1014,5 +1068,6 @@
 
   loadState();
 </script>
-</body>
-</html>
+
+
+</div></body></html>
