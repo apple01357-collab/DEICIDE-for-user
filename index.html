@@ -255,7 +255,7 @@
         <table class="dim-table">
           <thead><tr><th>차원</th><th>상태</th><th>설명</th></tr></thead>
           <tbody>
-            <tr><td><em>오버월드</em></td><td><span class="dot stable"></span>안정</td><td>플레이 주 무대. 설계자들이 정성들여 구현. Nightmare 몹 배회 중.</td></tr>
+            <tr><td><em>오버월드</em></td><td><span class="dot unstable"></span>흔들림</td><td>플레이 주 무대. 설계자들이 안정화해 두었으나 그들이 떠난 뒤 The rest와의 경계가 헐거워짐. Nightmare 몹 배회가 그 증거.</td></tr>
             <tr><td>네더</td><td><span class="dot unstable"></span>불안정</td><td>차원 연구 부산물로 열림. 양자요동 존재.</td></tr>
             <tr><td>엔드</td><td><span class="dot unstable"></span>불안정</td><td>차원 연구 부산물로 열림. 양자요동 존재.</td></tr>
             <tr><td><em>The rest</em></td><td><span class="dot open"></span>개방됨</td><td>무의식 차원. Sweet Dream 남용으로 통로 개방.</td></tr>
@@ -265,8 +265,7 @@
         </table>
       </div>
       <div class="legend">
-        <span><span class="dot stable"></span>안정</span>
-        <span><span class="dot unstable"></span>불안정</span>
+        <span><span class="dot unstable"></span>흔들림 · 불안정</span>
         <span><span class="dot open"></span>개방됨</span>
         <span><span class="dot building"></span>건설 중</span>
         <span><span class="dot unknown"></span>미지</span>
@@ -377,15 +376,52 @@
     <div class="notice-item">
       <div class="notice-header">
         <span class="notice-tag patch">ALPHA</span>
+        <span class="notice-tag new">UPDATE</span>
+        <span class="notice-date">2026.09.06</span>
+      </div>
+      <div class="notice-title">Class (직업) 시스템 가동 · 특수 도축 · 보석 광물화</div>
+      <div class="notice-body">
+        <ul>
+          <li><span class="tag-new">[신규]</span> <b>Class(직업) 시스템</b> — 농부 · 축산업자 · 대장장이 3종이 열렸습니다. 각 NPC의 전직 아이콘(네더의 별)에서 전직하며, 담당 NPC가 아니면 그 직업은 안내되지 않습니다. 전직 조건은 Grade 0 이상 + 직업별 퀘스트 200 + 에메랄드 384. 자세한 내용은 <b>가이드 07</b> 참고</li>
+          <li><span class="tag-new">[신규]</span> <b>직업 레벨 Lv.1~5</b> — 전직 후에도 같은 방식으로 승급하며 능력 수치가 함께 오릅니다. 전직 화면에서 승급 전후 수치를 미리 비교할 수 있습니다</li>
+          <li><span class="tag-new">[신규]</span> <b>두 번째 직업 슬롯</b> — Grade 2부터 열립니다. 최대 2개까지 동시 보유</li>
+          <li><span class="tag-new">[신규]</span> <b>특수 도축</b> (축산업자 전용) — 바닐라 몹을 직접 처치하면 특수 부위가 추가로 드랍됩니다. 돼지·소·닭·양·말·오징어·북극곰·라마·낙타·판다 등 몹마다 나오는 부위가 다릅니다</li>
+          <li><span class="tag-new">[신규]</span> <b>축산업자 NPC</b> — 특수 부위 매입 상점과 레시피 상점이 열렸습니다. 특수 부위를 쓰는 고급 요리 5종 추가 (삼겹살 구이 · 오징어 볶음 · 북극곰 스튜 · 양갈비 스테이크 · 말고기 육회)</li>
+          <li><span class="tag-new">[신규]</span> <b>루비·사파이어 광석</b> — 보석을 이제 직접 캘 수 있습니다. 사파이어가 루비보다 흔하고 얕게, 루비는 깊은 곳에서 드물게 나옵니다. 심층암 지대에는 심층암 버전이 생성됩니다. 곡괭이로만 캘 수 있습니다</li>
+          <li><span class="tag-new">[신규]</span> <b>메인 스토리 안내판</b> — 고대 사서 NPC에서 현재 목표를 확인할 수 있습니다</li>
+          <li><span class="tag-new">[신규]</span> <b>D.E.P. 포집 장치</b> — 서버의 첫 기능블럭입니다. 우클릭하면 작업 화면이 열리고, 진공관을 넣으면 <b>D.E.P. 포집관</b>이, 촉매까지 넣으면 <b>응축기</b>가 만들어집니다. 입자물리학자의 <b>포집 설비 제조</b>에서 장치와 진공관을 구할 수 있습니다. 자세한 내용은 <b>가이드 05</b> 참고</li>
+          <li><span class="tag-new">[신규]</span> <b>진공관</b> — 비어 있는 포집관입니다. <b>세라믹</b>으로 만들며, 대장장이의 잡돌 처리에서 나오는 가공 재료가 여기에 쓰입니다</li>
+          <li><span class="tag-change">[변경]</span> <b>에메랄드 블록</b>도 화폐로 인식됩니다 (블록 1개 = 에메랄드 9개). 거스름돈은 자동으로 돌려드립니다</li>
+          <li><span class="tag-change">[변경]</span> 원재료(시아나이트·비리다이트·애저 크리스탈)는 이제 <b>악몽몹 드랍</b>으로 얻습니다. 대장장이의 잡돌 처리에서는 가공 재료 5종이 나옵니다 — 채굴 라인과 전투 라인을 분리했습니다</li>
+          <li><span class="tag-change">[변경]</span> <b>커스텀 아이템 텍스처 전면 리뉴얼</b> — 씨앗 16 · 작물 20 · 요리 47 · 가공 재료 15 · 레시피북 8 (총 106종). 바닐라 아이템과 위화감이 적도록 다시 그렸습니다</li>
+          <li><span class="tag-change">[변경]</span> 특수공간의 악몽몹 스폰 반경 확대 — 200 → 320</li>
+          <li><span class="tag-fix">[버그픽스]</span> Sweet Dream 향수를 마셔도 아무 효과가 없던 문제 수정</li>
+          <li><span class="tag-fix">[버그픽스]</span> 양자요동 블록이 잘 캐지지 않던 문제 수정</li>
+          <li><span class="tag-fix">[버그픽스]</span> D.E.P. 포집관 착탄 시 드랍이 나오지 않던 문제 수정</li>
+          <li><span class="tag-fix">[버그픽스]</span> 특수 작물 매입가가 <b>표시된 값의 절반만</b> 지급되던 문제 수정 (표시는 2/4/10인데 실제로는 1/2/5만 지급되고 있었습니다)</li>
+          <li><span class="tag-fix">[버그픽스]</span> 씨앗이 <b>표시 가격보다 비싸게</b> 결제되던 문제 수정 (표시는 2/4/8인데 실제로는 3/6/15가 빠져나가고 있었습니다)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="notice-item">
+      <div class="notice-header">
+        <span class="notice-tag patch">ALPHA</span>
         <span class="notice-tag fix">PATCH</span>
         <span class="notice-date">2026.09.05</span>
       </div>
-      <div class="notice-title">서버 버전 업그레이드 (26.2 / Java 25)</div>
+      <div class="notice-title">서버 26.2 전환 · 경제 밸런스 조정 및 기능 복구</div>
       <div class="notice-body">
         <ul>
-          <li><span class="tag-change">[변경]</span> 서버 버전 업그레이드 — 1.21.11 → 26.2</li>
-          <li><span class="tag-change">[변경]</span> 접속하려면 마인크래프트 클라이언트를 26.2 버전으로 업데이트해주세요 (Java 25 필요)</li>
-          <li><span class="tag-change">[변경]</span> 관련 시스템 전반 안정성 점검 및 개선</li>
+          <li><span class="tag-change">[변경]</span> 서버 버전 업그레이드 — 1.21.11 → 26.2. 접속하려면 마인크래프트 클라이언트를 26.2 버전으로 업데이트해주세요 (Java 25 필요)</li>
+          <li><span class="tag-change">[변경]</span> 특수 작물 매입가 상향 — 일반 2 / 중간 4 / 희귀 10 에메랄드</li>
+          <li><span class="tag-change">[변경]</span> 씨앗 가격 인하 — 일반 2 / 중간 4 / 희귀 8 에메랄드</li>
+          <li><span class="tag-change">[변경]</span> 작물 대량 판매 시 개당 단가가 하락합니다. 판매 수량 선택 화면에서 개당 단가를 확인할 수 있습니다</li>
+          <li><span class="tag-change">[변경]</span> 환율소 수수료 조정 — 에메랄드 → Token은 <b>에메랄드 6개당 Token 1개</b>, Token → 에메랄드는 수수료 없이 <b>Token 1개당 에메랄드 3개</b>, Token ↔ D.E.P. 증서는 양방향 10%</li>
+          <li><span class="tag-fix">[버그픽스]</span> 대장장이 — 잡돌 처리·원재료 정제·젬스톤 정제·보석 응축에서 결과물이 지급되지 않던 문제 수정</li>
+          <li><span class="tag-fix">[버그픽스]</span> D.E.P. 응축관 — 던질 수 없던 문제 수정. 이제 정상적으로 사용되며 착탄 시 드랍이 발생합니다</li>
+          <li><span class="tag-fix">[버그픽스]</span> 토템 반경 표시 — 토템을 우클릭하면 현재 반경이 파티클로 표시됩니다</li>
+          <li><span class="tag-fix">[버그픽스]</span> 토템 반경 강화권이 아닌 아이템으로도 반경이 강화되던 문제 수정</li>
+          <li><span class="tag-fix">[버그픽스]</span> Token 상점 — 누적 거래량이 적용된 상품을 여러 개 구매해도 1개분만 처리되던 문제 수정. 이제 산 개수만큼 누적되며, 많이 살수록 개당 가격이 올라갑니다</li>
         </ul>
       </div>
     </div>
@@ -560,7 +596,24 @@
         <span class="guide-arrow">›</span>
       </div>
       <div class="guide-body">
-        <p>DEP는 불안정한 차원(네더·엔드)에서 발생하는 양자요동에서 얻을 수 있습니다. 포집 장치 없이는 거의 즉시 소멸하므로 반드시 포집 장치를 사용하세요. 수집한 DEP는 입자물리학자 NPC에게 기부하여 DEP 기부증서를 받아 재화로 사용하거나, 대장장이 NPC를 통해 특수한 재료로 가공할 수 있습니다.</p>
+        <p>D.E.P.는 차원이 흔들리는 곳에서 발생하는 <em>양자요동</em>을 캐서 얻습니다. 네더·엔드가 가장 활발합니다. 다만 그대로 두면 몇 초 만에 소멸하니 떨어지면 바로 주우세요. 수집한 D.E.P.는 입자물리학자에게 기부해 <em>D.E.P. 증서</em>로 바꾸거나, 대장장이의 정제·응축에 쓰입니다.</p>
+
+        <p style="margin-top:12px; margin-bottom:6px; font-family:'Space Mono',monospace; font-size:10px; color:var(--accent); letter-spacing:2px;">D.E.P. 포집 장치</p>
+        <ul>
+          <li>D.E.P.를 <em>보관할 수 있는 형태</em>로 만드는 설비입니다. 입자물리학자의 <em>포집 설비 제조</em>에서 장치와 진공관을 만들 수 있습니다</li>
+          <li>어느 차원에나 설치할 수 있지만 <em>네더·엔드에서 가장 빠릅니다</em>. 오버월드에도 균열은 있으나 설계자들이 남긴 안정화의 잔재와 The sill의 완충 때문에 요동이 약해 <em>3배 느립니다</em></li>
+          <li>설치한 장치를 우클릭하면 작업 화면이 열립니다. <em>진공관</em>을 넣고 가동하면 시간이 지나 완성됩니다</li>
+          <li>가동 중이거나 대기 중인 장치를 부수면 <em>넣어둔 것은 그대로 돌려받습니다</em></li>
+        </ul>
+
+        <p style="margin-top:12px; margin-bottom:6px; font-family:'Space Mono',monospace; font-size:10px; color:var(--accent); letter-spacing:2px;">무엇이 나오는가</p>
+        <ul>
+          <li>진공관만 넣으면 → <em>D.E.P. 포집관</em> (던지면 D.E.P.가 쏟아집니다)</li>
+          <li>진공관 + <em>촉매</em>를 함께 넣으면 → <em>응축기</em>가 됩니다. 촉매가 무엇이냐에 따라 종류가 달라집니다</li>
+          <li>철 주괴 → <em>토큰</em> · 금괴 → <em>코인</em> · 점토 덩이 → <em>칩</em> · 네더 석영 → <em>재료</em> · 청금석 → <em>경험치</em></li>
+          <li>촉매는 작업 화면의 촉매 칸을 클릭하면 목록에서 고를 수 있습니다</li>
+        </ul>
+        <p style="margin-top:10px; opacity:.7;">※ 진공관은 <em>세라믹</em>으로 만듭니다 — 대장장이의 잡돌 처리에서 나오는 가공 재료입니다</p>
       </div>
     </div>
 
@@ -573,13 +626,14 @@
       <div class="guide-body">
         <p>클래스 마을의 NPC들은 각각 전문 분야를 담당합니다. 클래스 마을의 기본 화폐는 <em>에메랄드</em>이며, DEP가 많이 소모되는 작업(꿈 책 제작, 재료 합성 등)에는 <em>DEP 증서</em>가 추가로 필요합니다.</p>
         <ul>
-          <li><em>고대 사서</em> — 메인 스토리 퀘스트, Librarian 전직, 문패·토템 관리</li>
+          <li><em>고대 사서</em> — 메인 스토리 안내판, Grade 승급, 문패·토템 관리</li>
           <li><em>스탯관리자</em> — 스탯 확인·업그레이드·반환</li>
           <li><em>Grade관리자</em> — Grade Up 퀘스트, 상점 입장 관리</li>
           <li><em>입자물리학자</em> — DEP 기부, 포집 장치 제조, 포집관 가챠</li>
-          <li><em>대장장이</em> — 원재료 정제, 커스텀 장비 제작·거래</li>
-          <li><em>특수작물농부</em> — 커스텀 작물 거래, 요리 레시피 구매</li>
+          <li><em>대장장이</em> — 재료 매입·정제, 커스텀 장비 제작·거래, 대장장이 전직</li>
+          <li><em>특수작물농부</em> — 씨앗 구매, 작물 매입, 요리 레시피 구매, 농부 전직</li>
           <li><em>잡화상</em> — 특수 도구 판매</li>
+          <li><em>축산업자</em> — 특수 부위 매입, 고급 요리 레시피 구매, 축산업자 전직</li>
           <li><em>조향사</em> — Sweet Dream 구매, 꿈 책 제조, 꿈 도서관 이동</li>
         </ul>
       </div>
@@ -592,35 +646,49 @@
         <span class="guide-arrow">›</span>
       </div>
       <div class="guide-body">
-        <p>NPC의 전직 메뉴를 통해 직업을 선택할 수 있습니다. 직업은 최대 <em>2개</em>까지 동시에 보유 가능하며, 조합에 따라 시너지 효과가 생깁니다.</p>
+        <p>각 NPC의 <em>전직 아이콘(네더의 별)</em>을 눌러 직업을 얻을 수 있습니다. 직업마다 담당 NPC가 따로 있으며, 그 NPC는 자기 직업만 안내합니다.</p>
 
-        <p style="margin-top:12px; margin-bottom:6px; font-family:'Space Mono',monospace; font-size:10px; color:var(--accent); letter-spacing:2px;">생산직</p>
+        <p style="margin-top:12px; margin-bottom:6px; font-family:'Space Mono',monospace; font-size:10px; color:var(--accent); letter-spacing:2px;">전직 조건</p>
         <ul>
-          <li><em>농부</em> — 작물 수확 효율 증가</li>
-          <li><em>어부</em> — 낚시 드랍 및 희귀 아이템 확률 증가</li>
-          <li><em>광부</em> — 채굴 효율 및 광물 드랍 증가</li>
-          <li><em>대장장이</em> — 장비 제작 및 정제 효율 증가</li>
-          <li><em>축산업</em> — 몹 드랍 및 번식 효율 증가</li>
-          <li><em>디스틸러</em> — 양조·증류 제조 효율 증가. Sweet Dream 향수 관련 이점</li>
-          <li><em>쿠퍼</em> — 양조용 배럴 제작 가능</li>
+          <li><em>Grade 0</em> 이상 — 튜토리얼을 마친 상태</li>
+          <li>직업별 <em>퀘스트 200</em> — 그 직업의 매입 상점에 물건을 판 누적 개수</li>
+          <li><em>에메랄드 384</em> — 에메랄드 블록도 인식됩니다 (블록 1개 = 에메랄드 9개)</li>
         </ul>
 
-        <p style="margin-top:12px; margin-bottom:6px; font-family:'Space Mono',monospace; font-size:10px; color:var(--accent); letter-spacing:2px;">전투직</p>
+        <p style="margin-top:12px; margin-bottom:6px; font-family:'Space Mono',monospace; font-size:10px; color:var(--accent); letter-spacing:2px;">직업 슬롯</p>
         <ul>
-          <li><em>힐러</em> — 회복 및 버프 물약 효율 증가</li>
-          <li><em>도박사</em> — 트럼프 카드를 원거리 무기로 사용. 카드 숫자·문양마다 효과·데미지 상이</li>
+          <li>1번 슬롯은 처음부터, <em>2번 슬롯은 Grade 2</em>부터 열립니다 — 최대 2개 동시 보유</li>
+          <li>보유 직업과 레벨은 <em>스탯창</em>에서 확인할 수 있습니다</li>
         </ul>
 
-        <p style="margin-top:12px; margin-bottom:6px; font-family:'Space Mono',monospace; font-size:10px; color:var(--accent); letter-spacing:2px;">연구직</p>
+        <p style="margin-top:12px; margin-bottom:6px; font-family:'Space Mono',monospace; font-size:10px; color:var(--accent); letter-spacing:2px;">레벨 (Lv.1 ~ Lv.5)</p>
         <ul>
-          <li><em>천문학자</em> — 재료 분해·재활용 가능. DEP 등 가공물질로 전환</li>
-          <li><em>전기공학자</em> — 레드스톤 관련 베네핏. DEP 포집기 제조 비용 절감</li>
-          <li><em>건축가</em> — 건축 편의 기능 제공</li>
-          <li><em>탐험가</em> — 나침반 보유 시 주변 구조물 좌표·거리 액션바 표시</li>
-          <li><em>음반제작가</em> — 커스텀 음반 제작 권한</li>
+          <li>전직 후에도 같은 방식으로 승급합니다. 승급할수록 능력 수치가 비례해서 올라갑니다</li>
+          <li>누적 퀘스트 — <em>200 / 600 / 1400 / 3000 / 6200</em></li>
+          <li>필요 에메랄드 — <em>384 / 768 / 1536 / 3072 / 6144</em></li>
+          <li>전직 화면에서 <em>승급 결과 미리보기</em>로 오르기 전후 수치를 비교할 수 있습니다</li>
         </ul>
 
-        <p style="margin-top:10px; color: var(--muted); font-size:11px;">※ 클래스 상세 내용 및 시너지는 추후 업데이트 예정</p>
+        <p style="margin-top:12px; margin-bottom:6px; font-family:'Space Mono',monospace; font-size:10px; color:var(--accent); letter-spacing:2px;">현재 구현된 직업</p>
+        <ul>
+          <li><em>농부</em> <span style="opacity:.6">(특수작물농부 NPC)</span> — 작물 매입 합계 <em>+4%씩 최대 +20%</em> · 레시피 에메랄드 가격 <em>-5%씩 최대 -25%</em>. 퀘스트는 특수 작물 판매</li>
+          <li><em>축산업자</em> <span style="opacity:.6">(축산업자 NPC)</span> — 부위 매입 합계 <em>+4%씩 최대 +20%</em> · <b>특수 도축</b> 드랍률 <em>기본 25%에서 레벨당 +5%p, 최대 50%</em>. 퀘스트는 특수 부위 매입</li>
+          <li><em>대장장이</em> <span style="opacity:.6">(대장장이 NPC)</span> — 재료 매입 합계 <em>+4%씩 최대 +20%</em> · 정제·응축 D.E.P. 증서 비용 <em>-5%씩 최대 -25%</em>. 퀘스트는 재료 매입</li>
+        </ul>
+
+        <p style="margin-top:12px; margin-bottom:6px; font-family:'Space Mono',monospace; font-size:10px; color:var(--accent); letter-spacing:2px;">특수 도축 (축산업자 전용)</p>
+        <ul>
+          <li>축산업자로 전직하면 <em>바닐라 몹을 직접 처치할 때</em> 일반 드랍 외에 특수 부위가 추가로 나옵니다</li>
+          <li>돼지·소·닭·양·말·오징어·북극곰·라마·낙타·판다 등 — 몹마다 나오는 부위가 다릅니다</li>
+          <li>이 부위들은 축산업자 <em>레시피 상점</em>의 고급 요리 재료이자, 매입 상점의 판매 품목입니다</li>
+        </ul>
+
+        <p style="margin-top:12px; margin-bottom:6px; font-family:'Space Mono',monospace; font-size:10px; color:var(--accent); letter-spacing:2px;">예정된 직업</p>
+        <ul>
+          <li>어부 · 디스틸러 · 쿠퍼 · 힐러 · 도박사 · 천문학자 · 전기공학자 · 건축가 · 탐험가 · 음반제작가 · 상인 · 사서(Librarian)</li>
+          <li>전직 화면에 <em>준비 중</em>으로 표시되며, 담당 NPC가 만들어지는 순서대로 열립니다</li>
+        </ul>
+        <p style="margin-top:10px; opacity:.7;">※ 광부 역할은 대장장이가, 애니멀호더 역할은 축산업자가 겸합니다. 직업 간 시너지는 추후 업데이트 예정</p>
       </div>
     </div>
 
@@ -1002,6 +1070,7 @@
   </script>
 
   </div>
+</div>
 
 <script>
   function show(id, btn) {
@@ -1070,4 +1139,4 @@
 </script>
 
 
-</div></body></html>
+</body></html>
